@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titan X-Series 3D Cylinder</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-body: #000000;
+            --bg-card: #1a1a1a;
+            --accent-orange: #f27f3d;
+            --accent-glow: rgba(242, 127, 61, 0.6);
+            --text-main: #ffffff;
+            --text-muted: #aaaaaa;
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+            --transition-speed: 1s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* FIXED: Set to transparent so the z-index: -1 background is visible */
+            background-color: transparent; 
+            font-family: var(--font-body);
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* --- STATIC BACKGROUND (Animation Removed) --- */
+        .bg-animate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* High Quality Gym Image */
+            background-image: url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2670&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 30px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            text-shadow: 0 0 30px rgba(0,0,0,0.9);
+            margin: 0;
+        }
+
+        .accent { color: var(--accent-orange); }
+
+        /* --- MAIN LAYOUT --- */
+        main {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            /* Deep perspective to allow looking "into" the cylinder */
+            perspective: 2500px; 
+        }
+
+        /* --- 3D CYLINDER STAGE --- */
+        .carousel-stage {
+            width: 100%; /* Full Width */
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-track {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform var(--transition-speed) cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        /* THE CARD */
+        .card {
+            position: absolute;
+            width: 340px; 
+            height: 480px;
+            left: 50%;
+            top: 50%;
+            margin-left: -170px; /* Center alignment */
+            margin-top: -240px;
+            background: var(--bg-card);
+            border: 2px solid #333;
+            border-radius: 12px;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Visible backface ensures we see the sides of the drum */
+            backface-visibility: visible; 
+            transition: border-color 0.4s, box-shadow 0.4s;
+        }
+
+        .card img {
+            width: 90%;
+            height: 90%;
+            object-fit: contain;
+            pointer-events: none;
+            /* Non-active cards are visible but dimmed */
+            filter: brightness(0.4) grayscale(0.8); 
+            transition: filter 0.8s;
+        }
+
+        /* Active Card Styling */
+        .card.active {
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 80px var(--accent-glow);
+            z-index: 50;
+        }
+
+        .card.active img {
+            filter: brightness(1) grayscale(0);
+        }
+
+        /* --- HOLOGRAPHIC GLASS PANEL --- */
+        .glass-panel {
+            position: absolute;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 320px;
+            background: rgba(20, 20, 20, 0.65); /* Dark semi-transparent */
+            backdrop-filter: blur(16px); /* The Glass Effect */
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--accent-orange); /* Tech accent */
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.4s, transform 0.4s;
+            pointer-events: none; /* Let clicks pass through if needed, or set auto */
+        }
+
+        .glass-panel.visible {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        .glass-panel.hidden {
+            opacity: 0;
+            transform: translateY(-50%) translateX(20px);
+        }
+
+        .glass-header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+        }
+
+        .glass-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 5px;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .glass-subtitle {
+            color: var(--accent-orange);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .glass-body {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .spec-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+
+        .spec-value {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        /* --- CONTROLS --- */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 70px;
+            height: 70px;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: all 0.3s;
+        }
+        .nav-btn:hover { 
+            background: var(--accent-orange); 
+            border-color: var(--accent-orange); 
+            transform: translateY(-50%) scale(1.1); 
+        }
+        
+        .nav-prev { left: 40px; }
+        .nav-next { right: 40px; }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .carousel-stage {
+                perspective: 1200px;
+            }
+            .card {
+                width: 240px;
+                height: 340px;
+                margin-left: -120px;
+                margin-top: -170px;
+            }
+            .nav-prev { left: 10px; }
+            .nav-next { right: 10px; }
+            h1 { font-size: 2rem; }
+
+            /* Mobile Glass Panel */
+            .glass-panel {
+                top: auto;
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+                width: auto;
+                transform: none !important; /* Override translate */
+            }
+            .glass-panel.visible {
+                opacity: 1;
+            }
+            .glass-panel.hidden {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Dedicated Background Container for Ken Burns Effect -->
+    <div class="bg-animate"></div>
+
+    <header>
+        <h1>Jaguar <span class="accent">Fitness</span></h1>
+    </header>
+
+    <main>
+        <!-- NAVIGATION BUTTONS -->
+        <button class="nav-btn nav-prev" onclick="rotateCarousel(-1)">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="nav-btn nav-next" onclick="rotateCarousel(1)">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+
+        <!-- 3D CAROUSEL STAGE -->
+        <div class="carousel-stage">
+            <div class="carousel-track" id="track">
+                <!-- Cards injected via JS -->
+            </div>
+        </div>
+
+        <!-- HOLOGRAPHIC INFO PANEL -->
+        <div class="glass-panel visible" id="info-panel">
+            <div class="glass-header">
+                <h2 class="glass-title" id="p-title">Product Name</h2>
+                <span class="glass-subtitle" id="p-subtitle">Series Name</span>
+            </div>
+            <div class="glass-body">
+                <p id="p-desc">Loading description...</p>
+                <div class="spec-grid" id="p-specs">
+                    <!-- Dynamic Specs -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- DATA ---
+        // RICH DATA RESTORED
+        const baseProducts = [
+            { 
+                id: 1, 
+                title: "Titan Multi-Station", 
+                subtitle: "Commercial Series", 
+                desc: "All-in-one functional trainer featuring dual independent stacks and aircraft-grade cables.",
+                specs: [
+                    { label: "Weight Stack", val: "2 x 200 lbs" },
+                    { label: "Material", val: "11-Gauge Steel" },
+                    { label: "Height", val: "84 Inches" },
+                    { label: "Cable", val: "Aircraft Grade" }
+                ],
+                image: "https://www.dropbox.com/scl/fi/el0jwqun8d7lq9gpepe59/632471f052e6706fae0487d5_dYkPKXIbriu0iW3uOLeXTezKeMSDwHrXeUx_J76vAVQYmjhOWceY7KyM8xnFHpYEFJeKp8sOx-IVRfEGu6y2oq9sNeM_E2Yokey2Jq1p9iEL0EnIttB6HvG1bJHKSwOwxjrmDeisVDDzX7a5KKrqnn_u2Fofu64nbOsJAzZe9xHKscssW2oXKoBiCQ.png?rlkey=9plx1ati18milfnyo4x8omd6p&st=oqgg6bnp&raw=1" 
+            },
+            { 
+                id: 2, 
+                title: "Pro Leg Press", 
+                subtitle: "Strength Line",
+                desc: "45-degree angle press designed for optimal quad isolation with oversized footplate.",
+                specs: [
+                    { label: "Capacity", val: "1,200 lbs" },
+                    { label: "Bearings", val: "Linear" },
+                    { label: "Footprint", val: "80x60 in" },
+                    { label: "Padding", val: "High Density" }
+                ],
+                image: "https://www.dropbox.com/scl/fi/h6za9fkiea30mf0azdwro/product_1750162848190.jpeg?rlkey=y3meybww1qwk3lba1s7h34q21&st=03c0guj7&raw=1" 
+            },
+            { 
+                id: 3, 
+                title: "GH-450 Hyper", 
+                subtitle: "Core Series", 
+                desc: "Heavy-duty hyperextension bench for lower back, glute, and hamstring development.",
+                specs: [
+                    { label: "Max Load", val: "400 lbs" },
+                    { label: "Angle", val: "45 Degrees" },
+                    { label: "Adjustable", val: "Yes" },
+                    { label: "Finish", val: "Powder Coat" }
+                ],
+                image: "https://www.dropbox.com/scl/fi/lby0qshxjs03mfo1hlmt9/GH-450-Pro-1.jpg?rlkey=njfbvvqo8mjexuiigxqasrtf0&st=8jlfqpzl&raw=1" 
+            },
+            { 
+                id: 4, 
+                title: "Apex Dumbbells", 
+                subtitle: "Free Weights", 
+                desc: "Rubber hex design preventing rolling, paired with ergonomic chrome handles.",
+                specs: [
+                    { label: "Core", val: "Cast Iron" },
+                    { label: "Coating", val: "Virgin Rubber" },
+                    { label: "Handle", val: "Chrome" },
+                    { label: "Increments", val: "5-100 lbs" }
+                ],
+                image: "https://www.dropbox.com/scl/fi/cn51ujr1ewr4xoljy5010/2151114219.jpg?rlkey=19gbgl88w70jr1bc0gjp6gnmy&st=v5ryh0oe&raw=1" 
+            },
+            { 
+                id: 5, 
+                title: "Cardio Runner", 
+                subtitle: "Endurance Series", 
+                desc: "Advanced treadmill with shock absorption deck and integrated 15-inch touchscreen.",
+                specs: [
+                    { label: "Motor", val: "4.0 HP" },
+                    { label: "Top Speed", val: "12 MPH" },
+                    { label: "Incline", val: "0-15%" },
+                    { label: "User Max", val: "350 lbs" }
+                ],
+                image: "https://www.dropbox.com/scl/fi/0jedbgwymlpkb3uxvyvp4/3d-gym-equipment.jpg?rlkey=kirukybv1r2kiggv63fmeoo60&st=5qu415ba&raw=1" 
+            }
+        ];
+
+        // --- EXPAND DATA ---
+        // Duplicate the list 3 times to get 15 items for a full circle
+        const products = [...baseProducts, ...baseProducts, ...baseProducts];
+
+        // --- STATE ---
+        let currentIndex = 0;
+        const track = document.getElementById('track');
+        const infoPanel = document.getElementById('info-panel');
+        const totalItems = products.length;
+        
+        // --- 3D CONFIGURATION ---
+        const cardWidth = 340; // match CSS width
+        const gap = 40; // spacing between cards
+        
+        // Dynamic Radius Calculation:
+        const radius = Math.round( ((cardWidth + gap) / 2) / Math.tan(Math.PI / totalItems) );
+        const theta = 360 / totalItems; // Angle per item
+
+        // --- INIT ---
+        function initCarousel() {
+            track.innerHTML = '';
+            
+            products.forEach((prod, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.index = index;
+                card.onclick = () => jumpTo(index);
+
+                // Initial 3D Position
+                const angle = theta * index;
+                // Important: Rotate Y first, then push out by Radius
+                card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+
+                const img = document.createElement('img');
+                img.src = prod.image;
+                img.alt = prod.title;
+                
+                card.appendChild(img);
+                track.appendChild(card);
+            });
+
+            updateView();
+            updatePanelContent(); // Initial load
+        }
+
+        // --- CAROUSEL LOGIC ---
+        function updateView() {
+            // Rotate the entire track container
+            const currentAngle = currentIndex * -theta;
+            track.style.transform = `translateZ(-${radius}px) rotateY(${currentAngle}deg)`;
+
+            // Calculate 'Normalized' index (0 to totalItems-1) for visual styling
+            let normalizedIndex = currentIndex % totalItems;
+            if (normalizedIndex < 0) normalizedIndex += totalItems;
+
+            // Update Active Classes
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                if (parseInt(card.dataset.index) === normalizedIndex) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+        }
+
+        function rotateCarousel(direction) {
+            currentIndex += direction;
+            updateView();
+            animatePanelUpdate();
+        }
+
+        function jumpTo(targetIndex) {
+            // Smart jumping: find the shortest rotation distance
+            let currentMod = currentIndex % totalItems;
+            if (currentMod < 0) currentMod += totalItems;
+            
+            let diff = targetIndex - currentMod;
+            
+            // Adjust for shortest path wrapping
+            if (diff > totalItems / 2) diff -= totalItems;
+            if (diff < -totalItems / 2) diff += totalItems;
+
+            currentIndex += diff;
+            updateView();
+            animatePanelUpdate();
+        }
+
+        // --- INFO PANEL LOGIC ---
+        function updatePanelContent() {
+            let normalizedIndex = currentIndex % totalItems;
+            if (normalizedIndex < 0) normalizedIndex += totalItems;
+            
+            const data = products[normalizedIndex];
+
+            document.getElementById('p-title').textContent = data.title;
+            document.getElementById('p-subtitle').textContent = data.subtitle;
+            document.getElementById('p-desc').textContent = data.desc;
+
+            const specContainer = document.getElementById('p-specs');
+            specContainer.innerHTML = '';
+            
+            data.specs.forEach(s => {
+                const item = document.createElement('div');
+                item.className = 'spec-item';
+                item.innerHTML = `
+                    <span class="spec-label">${s.label}</span>
+                    <span class="spec-value">${s.val}</span>
+                `;
+                specContainer.appendChild(item);
+            });
+        }
+
+        function animatePanelUpdate() {
+            // 1. Hide Panel
+            infoPanel.classList.remove('visible');
+            infoPanel.classList.add('hidden');
+
+            // 2. Wait for transition, update content, then show
+            setTimeout(() => {
+                updatePanelContent();
+                infoPanel.classList.remove('hidden');
+                infoPanel.classList.add('visible');
+            }, 400); // Wait 400ms (matches CSS transition)
+        }
+
+        // --- KEYBOARD SUPPORT ---
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') rotateCarousel(-1);
+            if (e.key === 'ArrowRight') rotateCarousel(1);
+        });
+
+        // Start
+        initCarousel();
+
+    </script>
+</body>
+</html>

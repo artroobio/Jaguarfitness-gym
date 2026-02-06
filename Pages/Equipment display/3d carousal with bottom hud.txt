@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titan X-Series 3D Cylinder</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-body: #000000;
+            --bg-card: #1a1a1a;
+            --accent-orange: #f27f3d;
+            --accent-glow: rgba(242, 127, 61, 0.6);
+            --text-main: #ffffff;
+            --text-muted: #aaaaaa;
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+            --transition-speed: 1s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: transparent; 
+            font-family: var(--font-body);
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* --- STATIC BACKGROUND --- */
+        .bg-animate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2670&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            text-shadow: 0 0 30px rgba(0,0,0,0.9);
+            margin: 0;
+        }
+
+        .accent { color: var(--accent-orange); }
+
+        /* --- MAIN LAYOUT --- */
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column; /* Changed for HUD layout */
+            width: 100%;
+            height: 100%;
+            position: relative;
+            perspective: 2500px; 
+        }
+
+        /* --- 3D CYLINDER STAGE --- */
+        .carousel-stage {
+            width: 100%;
+            height: 75%; /* Lifted to make room for HUD */
+            position: relative;
+            transform-style: preserve-3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 40px; /* Slight offset */
+        }
+
+        .carousel-track {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform var(--transition-speed) cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        /* THE CARD */
+        .card {
+            position: absolute;
+            width: 320px; 
+            height: 460px;
+            left: 50%;
+            top: 50%;
+            margin-left: -160px;
+            margin-top: -230px;
+            background: var(--bg-card);
+            border: 2px solid #333;
+            border-radius: 12px;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: visible; 
+            transition: border-color 0.4s, box-shadow 0.4s;
+        }
+
+        .card img {
+            width: 90%;
+            height: 90%;
+            object-fit: contain;
+            pointer-events: none;
+            filter: brightness(0.4) grayscale(0.8); 
+            transition: filter 0.8s;
+        }
+
+        /* Active Card Styling */
+        .card.active {
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 80px var(--accent-glow);
+            z-index: 50;
+        }
+
+        .card.active img {
+            filter: brightness(1) grayscale(0);
+        }
+
+        /* --- BOTTOM HUD PANEL (Option 1) --- */
+        .hud-panel {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 25%; /* Fixed height for dashboard feel */
+            min-height: 220px;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 2px solid var(--accent-orange);
+            box-shadow: 0 -20px 50px rgba(0,0,0,0.5);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .hud-panel.hidden {
+            transform: translateY(100%);
+        }
+        .hud-panel.visible {
+            transform: translateY(0);
+        }
+
+        /* HUD Sections */
+        .hud-section {
+            padding: 10px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Left: Title & ID */
+        .hud-left {
+            flex: 0 0 25%;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hud-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: #fff;
+            margin: 0;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .hud-subtitle {
+            color: var(--accent-orange);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* Center: Description */
+        .hud-center {
+            flex: 1;
+            padding: 0 40px;
+        }
+
+        .hud-desc {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            max-width: 800px;
+        }
+
+        /* Right: Specifications Grid */
+        .hud-right {
+            flex: 0 0 35%;
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+        }
+
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+            border-left: 2px solid rgba(255,255,255,0.1);
+            padding-left: 15px;
+        }
+
+        .spec-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .spec-value {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            color: #fff;
+        }
+
+        /* --- CONTROLS --- */
+        .nav-btn {
+            position: absolute;
+            top: 40%; /* Moved up slightly to align with carousel center */
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.2);
+            cursor: pointer;
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: all 0.3s;
+        }
+        .nav-btn:hover { 
+            background: var(--accent-orange); 
+            border-color: var(--accent-orange); 
+            transform: translateY(-50%) scale(1.1); 
+        }
+        
+        .nav-prev { left: 40px; }
+        .nav-next { right: 40px; }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .carousel-stage {
+                height: 50%;
+                padding-top: 60px;
+                perspective: 1200px;
+            }
+            .card {
+                width: 220px;
+                height: 300px;
+                margin-left: -110px;
+                margin-top: -150px;
+            }
+            
+            /* Stack HUD vertically on mobile */
+            .hud-panel {
+                height: 50%;
+                flex-direction: column;
+                padding: 20px;
+                overflow-y: auto;
+                justify-content: flex-start;
+                align-items: flex-start;
+                border-top: 4px solid var(--accent-orange);
+            }
+
+            .hud-section {
+                width: 100%;
+                height: auto;
+                padding: 10px 0;
+                border: none;
+            }
+
+            .hud-left {
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                margin-bottom: 10px;
+            }
+            .hud-title { font-size: 1.8rem; }
+            
+            .hud-center { padding: 0; margin-bottom: 15px; }
+            .hud-desc { font-size: 0.95rem; }
+
+            .spec-grid { grid-template-columns: 1fr 1fr; }
+            
+            .nav-prev { left: 10px; top: 35%; }
+            .nav-next { right: 10px; top: 35%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background -->
+    <div class="bg-animate"></div>
+
+    <header>
+        <h1>Jaguar <span class="accent">Fitness</span></h1>
+    </header>
+
+    <main>
+        <!-- NAVIGATION BUTTONS -->
+        <button class="nav-btn nav-prev" onclick="rotateCarousel(-1)">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="nav-btn nav-next" onclick="rotateCarousel(1)">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+
+        <!-- 3D CAROUSEL STAGE -->
+        <div class="carousel-stage">
+            <div class="carousel-track" id="track">
+                <!-- Cards injected via JS -->
+            </div>
+        </div>
+
+        <!-- BOTTOM HUD PANEL -->
+        <div class="hud-panel visible" id="info-panel">
+            
+            <!-- SECTION 1: IDENTITY -->
+            <div class="hud-section hud-left">
+                <h2 class="hud-title" id="p-title">Product Name</h2>
+                <span class="hud-subtitle" id="p-subtitle">Series Name</span>
+            </div>
+            
+            <!-- SECTION 2: CONTEXT -->
+            <div class="hud-section hud-center">
+                <p class="hud-desc" id="p-desc">Loading description...</p>
+            </div>
+
+            <!-- SECTION 3: DATA GRID -->
+            <div class="hud-section hud-right">
+                <div class="spec-grid" id="p-specs">
+                    <!-- Dynamic Specs -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- DATA ---
+        const baseProducts = [
+            { 
+                id: 1, 
+                title: "Titan Multi-Station", 
+                subtitle: "Commercial Series", 
+                desc: "Engineered for complete body conditioning. This all-in-one functional trainer features dual independent stacks and aircraft-grade cables for frictionless movement.",
+                specs: [
+                    { label: "Weight Stack", val: "2 x 200 lbs" },
+                    { label: "Material", val: "11-Gauge Steel" },
+                    { label: "Height", val: "84 Inches" },
+                    { label: "Cable", val: "Aircraft Grade" }
+                ],
+                image: "https://www.dropbox.com/scl/fi/el0jwqun8d7lq9gpepe59/632471f052e6706fae0487d5_dYkPKXIbriu0iW3uOLeXTezKeMSDwHrXeUx_J76vAVQYmjhOWceY7KyM8xnFHpYEFJeKp8sOx-IVRfEGu6y2oq9sNeM_E2Yokey2Jq1p9iEL0EnIttB6HvG1bJHKSwOwxjrmDeisVDDzX7a5KKrqnn_u2Fofu64nbOsJAzZe9xHKscssW2oXKoBiCQ.png?rlkey=9plx1ati18milfnyo4x8omd6p&st=oqgg6bnp&raw=1" 
+            },
+            { 
+                id: 2, 
+                title: "Pro Leg Press", 
+                subtitle: "Strength Line",
+                desc: "A dedicated 45-degree angle press designed for optimal quad isolation. Features an oversized footplate and ultra-smooth linear bearings for safety.",
+                specs: [
+                    { label: "Capacity", val: "1,200 lbs" },
+                    { label: "Bearings", val: "Linear" },
+                    { label: "Footprint", val: "80x60 in" },
+                    { label: "Padding", val: "High Density" }
+                ],
+                image: "https://www.dropbox.com/scl/fi/h6za9fkiea30mf0azdwro/product_1750162848190.jpeg?rlkey=y3meybww1qwk3lba1s7h34q21&st=03c0guj7&raw=1" 
+            },
+            { 
+                id: 3, 
+                title: "GH-450 Hyper", 
+                subtitle: "Core Series", 
+                desc: "The ultimate heavy-duty hyperextension bench. Built for lower back, glute, and hamstring development with fully adjustable hip pads.",
+                specs: [
+                    { label: "Max Load", val: "400 lbs" },
+                    { label: "Angle", val: "45 Degrees" },
+                    { label: "Adjustable", val: "Yes" },
+                    { label: "Finish", val: "Powder Coat" }
+                ],
+                image: "https://www.dropbox.com/scl/fi/lby0qshxjs03mfo1hlmt9/GH-450-Pro-1.jpg?rlkey=njfbvvqo8mjexuiigxqasrtf0&st=8jlfqpzl&raw=1" 
+            },
+            { 
+                id: 4, 
+                title: "Apex Dumbbells", 
+                subtitle: "Free Weights", 
+                desc: "Professional grade. The rubber hex design prevents rolling, while the ergonomic chrome handles provide a secure, comfortable grip.",
+                specs: [
+                    { label: "Core", val: "Cast Iron" },
+                    { label: "Coating", val: "Virgin Rubber" },
+                    { label: "Handle", val: "Chrome" },
+                    { label: "Increments", val: "5-100 lbs" }
+                ],
+                image: "https://www.dropbox.com/scl/fi/cn51ujr1ewr4xoljy5010/2151114219.jpg?rlkey=19gbgl88w70jr1bc0gjp6gnmy&st=v5ryh0oe&raw=1" 
+            },
+            { 
+                id: 5, 
+                title: "Cardio Runner", 
+                subtitle: "Endurance Series", 
+                desc: "Push your limits. This advanced treadmill features a shock absorption deck and an integrated 15-inch touchscreen for immersive runs.",
+                specs: [
+                    { label: "Motor", val: "4.0 HP" },
+                    { label: "Top Speed", val: "12 MPH" },
+                    { label: "Incline", val: "0-15%" },
+                    { label: "User Max", val: "350 lbs" }
+                ],
+                image: "https://www.dropbox.com/scl/fi/0jedbgwymlpkb3uxvyvp4/3d-gym-equipment.jpg?rlkey=kirukybv1r2kiggv63fmeoo60&st=5qu415ba&raw=1" 
+            }
+        ];
+
+        // --- EXPAND DATA ---
+        const products = [...baseProducts, ...baseProducts, ...baseProducts];
+
+        // --- STATE ---
+        let currentIndex = 0;
+        const track = document.getElementById('track');
+        const infoPanel = document.getElementById('info-panel');
+        const totalItems = products.length;
+        
+        // --- 3D CONFIGURATION ---
+        const cardWidth = 340; 
+        const gap = 40; 
+        
+        // Dynamic Radius Calculation:
+        const radius = Math.round( ((cardWidth + gap) / 2) / Math.tan(Math.PI / totalItems) );
+        const theta = 360 / totalItems; 
+
+        // --- INIT ---
+        function initCarousel() {
+            track.innerHTML = '';
+            
+            products.forEach((prod, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.index = index;
+                card.onclick = () => jumpTo(index);
+
+                // Initial 3D Position
+                const angle = theta * index;
+                // Important: Rotate Y first, then push out by Radius
+                card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+
+                const img = document.createElement('img');
+                img.src = prod.image;
+                img.alt = prod.title;
+                
+                card.appendChild(img);
+                track.appendChild(card);
+            });
+
+            updateView();
+            updatePanelContent(); // Initial load
+        }
+
+        // --- CAROUSEL LOGIC ---
+        function updateView() {
+            // Rotate the entire track container
+            const currentAngle = currentIndex * -theta;
+            track.style.transform = `translateZ(-${radius}px) rotateY(${currentAngle}deg)`;
+
+            // Calculate 'Normalized' index (0 to totalItems-1)
+            let normalizedIndex = currentIndex % totalItems;
+            if (normalizedIndex < 0) normalizedIndex += totalItems;
+
+            // Update Active Classes
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                if (parseInt(card.dataset.index) === normalizedIndex) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+        }
+
+        function rotateCarousel(direction) {
+            currentIndex += direction;
+            updateView();
+            animatePanelUpdate();
+        }
+
+        function jumpTo(targetIndex) {
+            // Smart jumping
+            let currentMod = currentIndex % totalItems;
+            if (currentMod < 0) currentMod += totalItems;
+            
+            let diff = targetIndex - currentMod;
+            
+            if (diff > totalItems / 2) diff -= totalItems;
+            if (diff < -totalItems / 2) diff += totalItems;
+
+            currentIndex += diff;
+            updateView();
+            animatePanelUpdate();
+        }
+
+        // --- INFO PANEL LOGIC ---
+        function updatePanelContent() {
+            let normalizedIndex = currentIndex % totalItems;
+            if (normalizedIndex < 0) normalizedIndex += totalItems;
+            
+            const data = products[normalizedIndex];
+
+            document.getElementById('p-title').textContent = data.title;
+            document.getElementById('p-subtitle').textContent = data.subtitle;
+            document.getElementById('p-desc').textContent = data.desc;
+
+            const specContainer = document.getElementById('p-specs');
+            specContainer.innerHTML = '';
+            
+            data.specs.forEach(s => {
+                const item = document.createElement('div');
+                item.className = 'spec-item';
+                item.innerHTML = `
+                    <span class="spec-label">${s.label}</span>
+                    <span class="spec-value">${s.val}</span>
+                `;
+                specContainer.appendChild(item);
+            });
+        }
+
+        function animatePanelUpdate() {
+            // Slide Down
+            infoPanel.classList.remove('visible');
+            infoPanel.classList.add('hidden');
+
+            // Wait, Update, Slide Up
+            setTimeout(() => {
+                updatePanelContent();
+                infoPanel.classList.remove('hidden');
+                infoPanel.classList.add('visible');
+            }, 500);
+        }
+
+        // --- KEYBOARD SUPPORT ---
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') rotateCarousel(-1);
+            if (e.key === 'ArrowRight') rotateCarousel(1);
+        });
+
+        // Start
+        initCarousel();
+
+    </script>
+</body>
+</html>

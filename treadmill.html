@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Treadmills - Jaguar Fitness</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script type="module" src="/src/js/main.js"></script>
+
+    
+
+    <link rel="stylesheet" href="/src/css/pages/treadmill.css">
+</head>
+
+<!-- FOOTER STYLES -->
+
+
+<body>
+
+    <!-- REUSED HEADER -->
+    <!-- Header injected by main.js -->
+
+    <!-- HERO -->
+    <div class="p-hero">
+        <h1 class="p-hero-title">Treadmills</h1>
+        <p class="p-hero-sub">Precision engineering meets personalized wellness. Discover the finest running surfaces in
+            the world.</p>
+    </div>
+
+    <!-- PRODUCTS GRID -->
+    <div class="p-grid">
+
+        <!-- PRODUCT 1 -->
+        <div class="p-card">
+            <div class="p-img-container">
+                <img src="https://images.ctfassets.net/ipjoepkmtnha/5jB7uV4syaqNBDEkUEN4lB/f73e7315fac8c2adb1888059dd54212d/myrun-lateral-white-metal-logo.jpg?w=800"
+                    class="p-img">
+            </div>
+            <h2 class="p-model">MyRun</h2>
+            <p class="p-desc">Compact. Silent. Smart. The perfect treadmill for your home.</p>
+            <div class="p-price">₹4,00,000</div>
+            <a href="#" class="p-btn">Configure</a>
+        </div>
+
+        <!-- PRODUCT 2 -->
+        <div class="p-card">
+            <div class="p-img-container">
+                <img src="https://images.ctfassets.net/ipjoepkmtnha/5vDn4Wcq139ifZyj7BDdlO/bde4041dd3aabb9b10b0803f06482699/artis-run-lateral-white.jpg?w=800"
+                    class="p-img">
+            </div>
+            <h2 class="p-model">Artis Run</h2>
+            <p class="p-desc">The most advanced treadmill for a premium cardio experience.</p>
+            <div class="p-price">₹13,99,000</div>
+            <a href="#" class="p-btn">Configure</a>
+        </div>
+
+        <!-- PRODUCT 3 -->
+        <div class="p-card">
+            <div class="p-img-container">
+                <img src="https://www.technogym.com/wps/wcm/connect/179b43c6-e429-425b-871d-727829987f2e/excite-run-lateral-white.png?MOD=AJPERES&CACHEID=ROOTWORKSPACE-179b43c6-e429-425b-871d-727829987f2e-n6yXz.Z"
+                    class="p-img">
+            </div>
+            <h2 class="p-model">Excite Live Run</h2>
+            <p class="p-desc">Fun. Connected. Effective. Elevate your daily run.</p>
+            <div class="p-price">₹9,50,000</div>
+            <a href="#" class="p-btn">Configure</a>
+        </div>
+
+        <!-- PRODUCT 4 -->
+        <div class="p-card">
+            <div class="p-img-container">
+                <img src="https://images.ctfassets.net/ipjoepkmtnha/7j3p9J4k2Q8qSkg66O6aYc/8c5b6b1b5b5b5b5b5b5b5b5b5b5b5b5b/skillrun-lateral.png?w=800"
+                    class="p-img">
+            </div>
+            <h2 class="p-model">Skill Run</h2>
+            <p class="p-desc">For the athletes. Sled push, parachute, and sprint training enabled.</p>
+            <div class="p-price">₹16,50,000</div>
+            <a href="#" class="p-btn">Configure</a>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <!-- Footer injected by main.js -->
+
+
+    
+
+    <!-- MOBILE MENU OVERLAY -->
+    <div class="mobile-overlay" id="mobileMenu">
+        <ul class="mobile-links">
+            <li><a href="landing.html">Home</a></li>
+            <li><a href="treadmill.html">Treadmills</a></li>
+            <li><a href="bikes.html">Bikes</a></li>
+            <li><a href="ellipticals.html">Ellipticals</a></li>
+            <li><a href="stair_climber.html">Stair Climbers</a></li>
+        </ul>
+        <div style="margin-top: 40px; cursor: pointer; color: #666;" onclick="toggleMobileMenu()">CLOSE</div>
+    </div>
+
+    <script>
+        gsap.from(".p-hero-title", { y: 50, opacity: 0, duration: 1, ease: "power3.out" });
+        gsap.from(".p-card", {
+            y: 50, opacity: 0,
+            stagger: 0.1, duration: 1,
+            ease: "power2.out", delay: 0.3
+        });
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>

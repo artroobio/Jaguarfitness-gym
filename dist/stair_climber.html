@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Stair Climbers - Jaguar Fitness</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    
+
+  <script type="module" crossorigin src="/assets/main-CmNXe1vT.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-B6lbRanm.css">
+  <link rel="stylesheet" crossorigin href="/assets/bikes-DXWC6UWV.css">
+</head>
+
+<!-- FOOTER STYLES -->
+
+
+<body>
+
+    <!-- REUSED HEADER -->
+    <!-- Header injected by main.js -->
+
+    <!-- HERO -->
+    <div class="p-hero">
+        <h1 class="p-hero-title">Stair Climbers</h1>
+        <p class="p-hero-sub">The peak of fitness. High intensity, maximum results.</p>
+    </div>
+
+    <!-- PRODUCTS GRID -->
+    <div class="p-grid">
+
+        <!-- PRODUCT 1 -->
+        <div class="p-card">
+            <div class="p-img-container">
+                <img src="https://images.ctfassets.net/ipjoepkmtnha/4Q6C0qW8Y8Y0c0a8iGSyQW/5f8c6b1b5b5b5b5b5b5b5b5b5b5b5b5b/excite_climb_lateral.png?w=800"
+                    class="p-img">
+            </div>
+            <h2 class="p-model">Excite Climb</h2>
+            <p class="p-desc">Safe, accessible, and effective.</p>
+            <div class="p-price">₹10,50,000</div>
+            <a href="#" class="p-btn">Configure</a>
+        </div>
+
+        <!-- PRODUCT 2 -->
+        <div class="p-card">
+            <div class="p-img-container">
+                <img src="https://images.ctfassets.net/ipjoepkmtnha/3Q8QY8Q8Y8Y0c0a8iGSyQW/5f8c6b1b5b5b5b5b5b5b5b5b5b5b5b5b/artis_climb_lateral.png?w=800"
+                    class="p-img">
+            </div>
+            <h2 class="p-model">Artis Climb</h2>
+            <p class="p-desc">Premium design for premium spaces.</p>
+            <div class="p-price">₹14,20,000</div>
+            <a href="#" class="p-btn">Configure</a>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <!-- Footer injected by main.js -->
+
+
+    
+
+    <script>
+        gsap.from(".p-hero-title", { y: 50, opacity: 0, duration: 1, ease: "power3.out" });
+        gsap.from(".p-card", {
+            y: 50, opacity: 0,
+            stagger: 0.1, duration: 1,
+            ease: "power2.out", delay: 0.3
+        });
+    </script>
+</body>
+
+</html>

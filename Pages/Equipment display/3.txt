@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titan X-900 Bento Specs</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-neutral: #f4f4f4;
+            --bg-white: #ffffff;
+            --accent-orange: #f27f3d;
+            --accent-dark-orange: #b45e2c; /* Used for heavy headings */
+            --text-dark: #222222;
+            --text-grey: #666666;
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+            --card-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-neutral);
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            line-height: 1.5;
+            padding-bottom: 60px;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        /* --- HEADER --- */
+        .page-header {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .accent {
+            color: var(--accent-orange);
+        }
+
+        .sub-title {
+            color: var(--text-grey);
+            font-size: 1.1rem;
+        }
+
+        /* --- BENTO GRID CONTAINER --- */
+        .bento-container {
+            display: grid;
+            /* Mobile: Single column stack */
+            grid-template-columns: 1fr; 
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- TILE STYLES (COMMON) --- */
+        .tile {
+            background-color: var(--bg-white);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 2px solid transparent; /* Prepare for hover effect */
+            transition: all var(--transition-speed) ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Micro-interaction: Hover Effect */
+        .tile:hover {
+            border-color: var(--accent-orange);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(242, 127, 61, 0.15);
+        }
+
+        /* --- SPECIFIC TILE TYPES --- */
+
+        /* 1. Large Tile (Product Shot) */
+        .tile-main {
+            min-height: 350px; /* Height for mobile */
+            padding: 0; /* Remove padding to let image bleed */
+            background-color: var(--bg-white);
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tile-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            max-height: 400px;
+            padding: 20px;
+        }
+
+        /* 2. Medium Tile (Video/Action) */
+        .tile-video {
+            min-height: 250px;
+            background-image: url('https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=2669&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        /* Dark overlay for video tile */
+        .tile-video::before {
+            content: '';
+            position: absolute;
+            top:0; left:0; right:0; bottom:0;
+            background: rgba(0,0,0,0.3);
+            transition: background 0.3s;
+        }
+        .tile-video:hover::before {
+            background: rgba(0,0,0,0.1);
+        }
+
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        
+        .tile-video:hover .play-btn {
+            transform: scale(1.1);
+        }
+
+        /* 3. Small Spec Tiles */
+        .tile-spec {
+            min-height: 180px;
+            text-align: left;
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(242, 127, 61, 0.1); /* Light orange tint */
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: var(--accent-orange);
+        }
+
+        .spec-label {
+            font-size: 0.9rem;
+            color: var(--text-grey);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .spec-value {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--accent-dark-orange); /* "Strength" color */
+            line-height: 1.2;
+            margin-top: 5px;
+        }
+
+        /* 4. Feature List Tile */
+        .tile-list {
+            justify-content: flex-start;
+        }
+        
+        .tile-list h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            color: #444;
+        }
+        
+        .check-icon {
+            color: var(--accent-orange);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* --- CTA BUTTON --- */
+        .cta-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .btn-buy {
+            background-color: var(--accent-orange);
+            color: white;
+            padding: 18px 40px;
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px; /* Rounded pill shape */
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(242, 127, 61, 0.4);
+            transition: all 0.3s;
+        }
+        
+        .btn-buy:hover {
+            background-color: var(--accent-dark-orange);
+            transform: translateY(-2px);
+        }
+
+        /* --- DESKTOP GRID LAYOUT (768px+) --- */
+        @media (min-width: 768px) {
+            .main-title { font-size: 3.5rem; }
+
+            .bento-container {
+                /* Create a 4-column grid */
+                grid-template-columns: repeat(4, 1fr);
+                /* Define implicit row height or specific rows */
+                grid-auto-rows: 220px; 
+            }
+
+            /* --- MAPPING TILES TO GRID --- */
+
+            /* Main Product: Spans 2 cols, 2 rows (Big Square) */
+            .tile-main {
+                grid-column: span 2;
+                grid-row: span 2;
+            }
+
+            /* Video: Spans 2 cols, 1 row (Wide Rectangle) */
+            .tile-video {
+                grid-column: span 2;
+                grid-row: span 1;
+            }
+
+            /* Small Specs: Span 1 col, 1 row (Small Square) */
+            .tile-spec {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+
+            /* Feature List: Spans 1 col, 2 rows (Tall Rectangle) */
+            .tile-tall {
+                grid-column: span 1;
+                grid-row: span 2;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="page-header">
+        <h1 class="main-title">Titan <span class="accent">X-900</span> Specs</h1>
+        <p class="sub-title">Visualizing the engineering behind the performance.</p>
+    </header>
+
+    <main class="bento-container">
+
+        <!-- 1. LARGE TILE: Main Product Image -->
+        <div class="tile tile-main">
+            <!-- Using your specific Dropbox Image -->
+            <img src="https://www.dropbox.com/scl/fi/dxscop427mdgnjxnvcill/18-1024x1024.webp?rlkey=epba6k7t2ka7ztqb5otex1nnd&st=hyfhvt5q&raw=1" alt="Titan X-900 Gym Equipment">
+        </div>
+
+        <!-- 2. MEDIUM TILE: "In Motion" Video Placeholder -->
+        <div class="tile tile-video">
+            <div class="play-btn">
+                <!-- SVG Play Icon -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+            </div>
+            <span style="position: absolute; bottom: 20px; color: white; font-weight: 500; z-index: 2;">Watch Demo</span>
+        </div>
+
+        <!-- 3. SPEC TILE: Weight Capacity -->
+        <div class="tile tile-spec">
+            <div class="icon-box">
+                <!-- SVG Weight Icon -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 7h12a4 4 0 0 1 4 4v0a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4v0a4 4 0 0 1 4-4z"></path>
+                    <line x1="12" y1="7" x2="12" y2="15"></line>
+                </svg>
+            </div>
+            <div class="spec-info">
+                <div class="spec-label">Total Capacity</div>
+                <div class="spec-value">1,000<span style="font-size:1rem"> lbs</span></div>
+            </div>
+        </div>
+
+        <!-- 4. SPEC TILE: Dimensions -->
+        <div class="tile tile-spec">
+            <div class="icon-box">
+                 <!-- SVG Ruler/Dimensions Icon -->
+                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                </svg>
+            </div>
+            <div class="spec-info">
+                <div class="spec-label">Footprint</div>
+                <div class="spec-value">62" <span style="font-size:1rem">x</span> 48"</div>
+            </div>
+        </div>
+
+        <!-- 5. TALL TILE: Key Features List -->
+        <div class="tile tile-list tile-tall">
+            <h3>Key Features</h3>
+            
+            <div class="feature-item">
+                <span class="check-icon">✓</span> 11-Gauge Steel Frame
+            </div>
+            <div class="feature-item">
+                <span class="check-icon">✓</span> Dual 200lb Stacks
+            </div>
+            <div class="feature-item">
+                <span class="check-icon">✓</span> Magnetic Selector Pin
+            </div>
+            <div class="feature-item">
+                <span class="check-icon">✓</span> Laser-Cut Numbering
+            </div>
+            <div class="feature-item">
+                <span class="check-icon">✓</span> Aluminum Pulleys
+            </div>
+            <div class="feature-item">
+                <span class="check-icon">✓</span> Lifetime Warranty
+            </div>
+        </div>
+
+        <!-- 6. SPEC TILE: Cable Length -->
+        <div class="tile tile-spec">
+            <div class="icon-box">
+                <!-- SVG Arrow Icon -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </div>
+            <div class="spec-info">
+                <div class="spec-label">Cable Travel</div>
+                <div class="spec-value">85"</div>
+            </div>
+        </div>
+
+         <!-- 7. SPEC TILE: Ratio -->
+         <div class="tile tile-spec">
+            <div class="icon-box">
+                <!-- SVG Gears Icon -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+            </div>
+            <div class="spec-info">
+                <div class="spec-label">Lift Ratio</div>
+                <div class="spec-value">2:1</div>
+            </div>
+        </div>
+
+    </main>
+
+    <div class="cta-container">
+        <button class="btn-buy">Configure Your Build</button>
+    </div>
+
+</body>
+</html>

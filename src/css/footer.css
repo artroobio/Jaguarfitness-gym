@@ -1,0 +1,184 @@
+/* FOOTER */
+#jaguar-footer {
+    width: 100%;
+    background-color: #0D0D0D;
+    /* Deep Black */
+    color: #9CA3AF;
+    /* Muted Text */
+    font-family: 'Inter', sans-serif;
+    padding: 80px 20px 40px 20px;
+    position: relative;
+    z-index: 10;
+    font-size: 14px;
+}
+
+.j-footer-container {
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* --- TOP GRID --- */
+.j-footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin-bottom: 80px;
+}
+
+@media (min-width: 768px) {
+    .j-footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns tablet */
+    }
+}
+
+@media (min-width: 1024px) {
+    .j-footer-grid {
+        grid-template-columns: 1fr 1fr 1fr 1.5fr;
+        /* 4 cols desktop */
+    }
+}
+
+.j-footer-col h4 {
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    letter-spacing: 1px;
+}
+
+.j-footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.j-footer-link {
+    color: #9CA3AF;
+    text-decoration: none;
+    transition: 0.3s;
+    font-weight: 300;
+}
+
+.j-footer-link:hover {
+    color: #FFA500;
+    /* Yellow Hover */
+    padding-left: 5px;
+    /* Tiny slide effect */
+}
+
+/* --- NEWSLETTER CARD --- */
+.j-newsletter-box {
+    background-color: #1B1B1B;
+    padding: 40px;
+    border-radius: 24px;
+    border: 1px solid #333;
+    text-align: center;
+}
+
+.j-news-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.j-sub-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 16px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.j-sub-btn:hover {
+    background: white;
+    color: black;
+}
+
+/* --- BOTTOM BAR --- */
+.j-footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    font-size: 12px;
+}
+
+@media (min-width: 1024px) {
+    .j-footer-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+}
+
+.j-legal-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.j-legal-links a {
+    color: #666;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.j-legal-links a:hover {
+    color: white;
+}
+
+/* --- SECURE BADGE --- */
+.j-secure {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+}
+
+.j-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #22c55e;
+    /* Green */
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+}
+
+/* --- FIXED SUPPORT BUTTON --- */
+#j-support-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: #0D0D0D;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    /* Top of everything */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    color: #FFA500;
+    cursor: pointer;
+    transition: transform 0.3s;
+    border: 1px solid #333;
+}
+
+#j-support-btn:hover {
+    transform: scale(1.1) rotate(10deg);
+    background-color: #1B1B1B;
+}

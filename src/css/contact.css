@@ -1,0 +1,113 @@
+/* --- CONTACT PAGE STYLES --- */
+.contact-section {
+    padding: 180px 20px 100px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 60px;
+}
+
+@media(min-width: 1024px) {
+    .contact-section {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-section {
+        padding-top: 120px;
+    }
+}
+
+.contact-info h1 {
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 0.9;
+    margin-bottom: 40px;
+    color: white;
+}
+
+.info-card {
+    margin-bottom: 40px;
+}
+
+.info-label {
+    color: #FFA500;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    display: block;
+    font-weight: 700;
+}
+
+.info-text {
+    font-size: 20px;
+    color: #ccc;
+    margin-bottom: 5px;
+    font-weight: 300;
+}
+
+/* FORM */
+.contact-form {
+    background: #111;
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid #333;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    background: #000;
+    border: 1px solid #333;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s;
+    box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    border-color: #FFA500;
+}
+
+.btn-submit {
+    background: #FFA500;
+    color: black;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 14px;
+    letter-spacing: 1px;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+.btn-submit:hover {
+    background: white;
+    transform: translateY(-2px);
+}

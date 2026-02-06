@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ellipticals - Jaguar Fitness</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script type="module" src="/src/js/main.js"></script>
+
+    
+
+    <link rel="stylesheet" href="/src/css/pages/ellipticals.css">
+</head>
+
+<!-- FOOTER STYLES -->
+
+
+<body>
+
+    <!-- REUSED HEADER -->
+    <!-- Header injected by main.js -->
+
+    <!-- HERO -->
+    <div class="p-hero">
+        <h1 class="p-hero-title">Ellipticals</h1>
+        <p class="p-hero-sub">Fluid range of motion. Zero impact. 100% Results.</p>
+    </div>
+
+    <!-- PRODUCTS GRID -->
+    <div class="p-grid">
+
+        <!-- PRODUCT 1 -->
+        <div class="p-card">
+            <div class="p-img-container">
+                <img src="https://images.ctfassets.net/ipjoepkmtnha/59e691238912445e99c154460f7e44/cross_personal_lateral.png?w=800"
+                    class="p-img">
+            </div>
+            <h2 class="p-model">Cross Personal</h2>
+            <p class="p-desc">Where design meets movement.</p>
+            <div class="p-price">₹8,50,000</div>
+            <a href="#" class="p-btn">Configure</a>
+        </div>
+
+        <!-- PRODUCT 2 -->
+        <div class="p-card">
+            <div class="p-img-container">
+                <img src="https://images.ctfassets.net/ipjoepkmtnha/6jBPntrSk1VfESP3YV4GsW/c3ec9fba0523a5dae3dd0ac70c234ec0/ride-white-lateral.jpg?w=800"
+                    class="p-img"> <!-- Placeholder -->
+            </div>
+            <h2 class="p-model">Vario Excite</h2>
+            <p class="p-desc">Adaptive stride for total body freedom.</p>
+            <div class="p-price">₹6,80,000</div>
+            <a href="#" class="p-btn">Configure</a>
+        </div>
+
+        <!-- PRODUCT 3 -->
+        <div class="p-card">
+            <div class="p-img-container">
+                <img src="https://images.ctfassets.net/ipjoepkmtnha/1ebTSsUYN3kJPEdswLOgDo/872864ecf09f6d949add3fd230884b66/technogym-benchlateral-white.jpg?w=600"
+                    class="p-img"> <!-- Placeholder -->
+            </div>
+            <h2 class="p-model">Synchro Artis</h2>
+            <p class="p-desc">The most natural elliptical movement ever created.</p>
+            <div class="p-price">₹11,50,000</div>
+            <a href="#" class="p-btn">Configure</a>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <!-- Footer injected by main.js -->
+
+
+    
+
+    <script>
+        gsap.from(".p-hero-title", { y: 50, opacity: 0, duration: 1, ease: "power3.out" });
+        gsap.from(".p-card", {
+            y: 50, opacity: 0,
+            stagger: 0.1, duration: 1,
+            ease: "power2.out", delay: 0.3
+        });
+    </script>
+</body>
+
+</html>

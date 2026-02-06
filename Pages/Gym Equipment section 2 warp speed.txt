@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaguar Black Series | Precision Engineering</title>
+    
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- LIBRARIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        /* --- RESET & VARS --- */
+        :root {
+            --j-black: #050505;
+            --j-dark: #111111;
+            --j-yellow: #FFE01E;
+            --j-white: #FFFFFF;
+            --j-grey: #9CA3AF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--j-black);
+            color: var(--j-white);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img, video { display: block; width: 100%; height: auto; }
+        
+        /* UTILS */
+        .j-section {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .j-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            font-size: clamp(40px, 8vw, 100px);
+            text-transform: uppercase;
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: clamp(16px, 1.5vw, 20px);
+            font-weight: 300;
+            color: var(--j-grey);
+            line-height: 1.6;
+        }
+
+        /* --- 1. HERO: INTERACTIVE PARALLAX --- */
+        #hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: black;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Wrapper is larger than viewport to allow movement without showing edges */
+        .j-hero-video-wrap {
+            position: absolute;
+            top: -5%;
+            left: -5%;
+            width: 110%;
+            height: 110%;
+            z-index: 0;
+        }
+
+        .j-hero-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 1; /* Full visibility */
+        }
+
+        .j-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            /* Will be animated by mouse */
+            will-change: transform;
+        }
+
+        .j-hero-title {
+            position: relative;
+            display: inline-block;
+            /* Clipping for the scan effect */
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: rgba(255,255,255,0.1); /* Ghost text */
+            background-image: linear-gradient(to right, var(--j-white) 50%, var(--j-yellow) 50%);
+            background-size: 200% 100%;
+            background-position: 100%; /* Start hidden */
+        }
+
+        .j-scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            background: var(--j-yellow);
+            box-shadow: 0 0 20px var(--j-yellow);
+            opacity: 0;
+        }
+
+        /* --- 2. WARP SPEED SECTION (UPDATED) --- */
+        #warp-section {
+            height: 100vh; /* Will be pinned for longer duration */
+            background-color: var(--j-black);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #j-warp-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .j-warp-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .j-warp-slide {
+            position: absolute;
+            opacity: 0;
+            transform: scale(0.8);
+            text-align: center;
+            will-change: transform, opacity;
+        }
+
+        .j-warp-img {
+            max-width: 600px;
+            width: 80vw;
+            border-radius: 4px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .j-warp-slide h3 {
+            font-size: clamp(20px, 4vw, 40px);
+            text-transform: uppercase;
+            margin-top: 20px;
+            color: var(--j-yellow);
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: rgba(0,0,0,0.8);
+            display: inline-block;
+            padding: 5px 15px;
+        }
+
+        .j-final-logo {
+            font-size: clamp(50px, 10vw, 120px);
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 0.9;
+            color: var(--j-white);
+            text-shadow: 0 0 30px rgba(255, 224, 30, 0.5);
+        }
+
+        /* --- 3. THE ATELIER: CINEMA SCROLLER --- */
+        #materials-section {
+            background-color: #F4F4F4; /* Light Theme Base */
+            color: #0D0D0D; /* Black Text */
+            position: relative;
+            /* Flex layout for side-by-side */
+            display: flex;
+            flex-direction: column;
+            /* FIX 1: Override global overflow to allow sticky positioning to work */
+            overflow: visible;
+        }
+        
+        /* Remove the old dark overlay */
+        #materials-section::before { display: none; }
+
+        /* Left Side: Sticky Visuals */
+        .j-cinema-visual {
+            width: 100%;
+            height: 50vh;
+            position: relative;
+            overflow: hidden;
+            background: #E5E5E5;
+        }
+
+        @media (min-width: 1024px) {
+            #materials-section {
+                flex-direction: row;
+                /* FIX 2: Align start allows the left column to be shorter than the right, enabling sticky movement */
+                align-items: flex-start; 
+            }
+
+            .j-cinema-visual {
+                width: 50%;
+                height: 100vh;
+                position: sticky;
+                top: 0;
+            }
+        }
+
+        .j-cinema-layer {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out, transform 1.2s ease-out;
+            transform: scale(1.1);
+        }
+
+        .j-cinema-layer.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .j-cinema-layer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Right Side: Scrollable Content */
+        .j-cinema-content {
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        @media (min-width: 1024px) {
+            .j-cinema-content {
+                width: 50%;
+            }
+        }
+
+        .j-cinema-block {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 40px;
+            box-sizing: border-box;
+            /* Updated border to right side for new layout */
+            border-right: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .j-block-num {
+            font-size: 14px;
+            font-weight: 700;
+            color: #9CA3AF; /* Grey */
+            margin-bottom: 20px;
+            display: block;
+            border-bottom: 2px solid #FFE01E; /* Yellow accent */
+            width: 30px;
+            padding-bottom: 5px;
+        }
+
+        .j-cinema-block h3 {
+            font-size: clamp(40px, 5vw, 70px);
+            font-weight: 800;
+            text-transform: uppercase;
+            line-height: 0.95;
+            margin-bottom: 30px;
+            color: #0D0D0D;
+            letter-spacing: -2px;
+        }
+
+        .j-cinema-block p {
+            color: #4B5563; /* Darker grey for light bg */
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 450px;
+        }
+
+        /* --- 4. HUD: DASHBOARD --- */
+        #hud-section {
+            padding: 120px 0;
+            background: radial-gradient(circle at center, #222 0%, #000 100%);
+            text-align: center;
+        }
+
+        .j-hud-display {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .j-hud-metric {
+            text-align: center;
+        }
+
+        .j-hud-val {
+            font-family: 'Inter', monospace; /* Monospace for numbers */
+            font-size: clamp(40px, 6vw, 80px);
+            font-weight: 900;
+            color: var(--j-yellow);
+            display: block;
+            line-height: 1;
+        }
+
+        .j-hud-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+        }
+
+        .j-hud-graph {
+            width: 100%;
+            max-width: 800px;
+            height: 150px;
+            margin: 0 auto;
+            border-bottom: 1px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* SVG Line */
+        .j-svg-line {
+            fill: none;
+            stroke: var(--j-yellow);
+            stroke-width: 3;
+            vector-effect: non-scaling-stroke;
+        }
+
+        /* --- 5. SILENCE: WAVEFORM --- */
+        #silence-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--j-black);
+            position: relative;
+        }
+
+        .j-wave-container {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .j-bar {
+            width: 10px;
+            background-color: var(--j-white);
+            border-radius: 5px;
+            height: 10px; /* Initial state */
+        }
+
+        .j-silence-text {
+            text-align: center;
+            margin-top: 40px;
+            opacity: 0;
+        }
+
+        /* --- 6. CONFIGURATOR: GRID --- */
+        #config-section {
+            padding: 100px 20px;
+            background: var(--j-white);
+            color: var(--j-black);
+        }
+
+        .j-config-header {
+            max-width: 1400px;
+            margin: 0 auto 60px auto;
+        }
+
+        .j-config-header h2 { color: var(--j-black); }
+        .j-config-header p { color: #666; }
+
+        .j-masonry {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media(min-width: 768px) {
+            .j-masonry {
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(2, 300px);
+            }
+            .j-tile:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+            .j-tile:nth-child(2) { grid-column: span 2; }
+        }
+
+        .j-tile {
+            background: #eee;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            min-height: 200px;
+        }
+
+        .j-tile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .j-tile:hover img { transform: scale(1.1); }
+
+        /* MAG BUTTON */
+        .j-mag-btn-wrap {
+            display: flex;
+            justify-content: center;
+            padding: 80px 0;
+        }
+
+        .j-mag-btn {
+            background: var(--j-black);
+            color: var(--j-white);
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: none;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+            z-index: 5;
+            transition: transform 0.1s;
+        }
+        
+        /* Mobile Opt */
+        @media (max-width: 768px) {
+            .j-mag-btn { width: 140px; height: 140px; font-size: 14px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. HERO: INTERACTIVE PARALLAX -->
+    <section id="hero-section" class="j-section">
+        <div class="j-hero-video-wrap">
+            <!-- NOTE: 'loop' attribute removed to allow playlist logic in JS -->
+            <video class="j-hero-video" autoplay muted playsinline id="j-hero-video-el">
+                <!-- Source will be set by JS -->
+            </video>
+        </div>
+        <div class="j-hero-content">
+            <h2 class="j-hero-title">
+                The Black Series
+                <div class="j-scan-line"></div>
+            </h2>
+            <p>Performance in the shadows.</p>
+        </div>
+    </section>
+
+    <!-- 2. WARP SPEED: SONIC BOOM SEQUENCE -->
+    <section id="warp-section" class="j-section">
+        <canvas id="j-warp-canvas"></canvas>
+        
+        <div class="j-warp-overlay">
+            <!-- Slide 1 -->
+            <div class="j-warp-slide" id="j-slide-1">
+                <img src="https://assets.zyrosite.com/dWxL2je49ks9BZq5/036a3411-efnzVJrameBUOwcb.webp" class="j-warp-img" alt="Slide 1">
+                <h3>Power</h3>
+            </div>
+            
+            <!-- Slide 2 -->
+            <div class="j-warp-slide" id="j-slide-2">
+                <img src="https://assets.zyrosite.com/dWxL2je49ks9BZq5/page_44_1-TVDm3hgwhHvRUbMe.webp" class="j-warp-img" alt="Slide 2">
+                <h3>Precision</h3>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="j-warp-slide" id="j-slide-3">
+                <img src="https://assets.zyrosite.com/dWxL2je49ks9BZq5/page_49_1-1-g92dbL2PJKpcGmnx.webp" class="j-warp-img" alt="Slide 3">
+                <h3>Performance</h3>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="j-warp-slide" id="j-slide-4">
+                <img src="https://assets.zyrosite.com/dWxL2je49ks9BZq5/page_51_3-GU8hV7zA4O5QmRES.jpeg" class="j-warp-img" alt="Slide 4">
+                <h3>Endurance</h3>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="j-warp-slide" id="j-slide-5">
+                <img src="https://assets.zyrosite.com/dWxL2je49ks9BZq5/page_53_1-3hgi6ahkyI2HUtQA.jpeg" class="j-warp-img" alt="Slide 5">
+                <h3>Focus</h3>
+            </div>
+
+            <!-- Slide 6 (Final) -->
+            <div class="j-warp-slide" id="j-slide-6">
+                <h2 class="j-final-logo">JAGUAR<br><span style="color:var(--j-yellow)">FITNESS</span></h2>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. THE ATELIER: CINEMA SCROLLER (Light Theme) -->
+    <section id="materials-section" class="j-section">
+        <!-- Scrollable Left: Content -->
+        <div class="j-cinema-content">
+            <!-- Block 1 -->
+            <div class="j-cinema-block" data-target="vis-1">
+                <span class="j-block-num">01</span>
+                <h3>Physical<br>Geometry</h3>
+                <p>Biomechanics engineered for the human form. Every angle calculated for optimal force transfer, reducing joint stress while maximizing output.</p>
+            </div>
+            <!-- Block 2 -->
+            <div class="j-cinema-block" data-target="vis-2">
+                <span class="j-block-num">02</span>
+                <h3>Unrivaled<br>Finish</h3>
+                <p>Matte powder coat finish resistant to corrosion and wear. Tactile surfaces designed for grip, comfort, and enduring aesthetics.</p>
+            </div>
+            <!-- Block 3 -->
+            <div class="j-cinema-block" data-target="vis-3">
+                <span class="j-block-num">03</span>
+                <h3>Precision<br>Engineering</h3>
+                <p>CNC machined components with solid core integrity. Built to withstand extreme loads and deliver whisper-quiet operation.</p>
+            </div>
+            <!-- Block 4 -->
+            <div class="j-cinema-block" data-target="vis-4">
+                <span class="j-block-num">04</span>
+                <h3>Ergonomic<br>Control</h3>
+                <p>Intuitive interface points placed exactly where hands naturally fall. Seamless adjustments without breaking focus.</p>
+            </div>
+            <!-- Block 5 -->
+            <div class="j-cinema-block" data-target="vis-5">
+                <span class="j-block-num">05</span>
+                <h3>Silent<br>Drive</h3>
+                <p>Mag-lev resistance systems provide smooth, consistent tension with zero friction and absolute silence.</p>
+            </div>
+        </div>
+
+        <!-- Sticky Right: Visuals -->
+        <div class="j-cinema-visual">
+            <!-- Visual 1: Geometry -->
+            <div class="j-cinema-layer active" id="vis-1">
+                <img src="https://images.unsplash.com/photo-1540497077202-7c8a33801f0a?q=80&w=1200&auto=format&fit=crop" alt="Physical Geometry">
+            </div>
+            <!-- Visual 2: Finish -->
+            <div class="j-cinema-layer" id="vis-2">
+                <img src="https://images.unsplash.com/photo-1612696030990-2e3df7413d71?q=80&w=1200&auto=format&fit=crop" alt="Quality Finish">
+            </div>
+            <!-- Visual 3: Engineering -->
+            <div class="j-cinema-layer" id="vis-3">
+                <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1200&auto=format&fit=crop" alt="Precision Engineering">
+            </div>
+            <!-- Visual 4: Control -->
+            <div class="j-cinema-layer" id="vis-4">
+                <img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&w=1200&auto=format&fit=crop" alt="Ergonomic Control">
+            </div>
+            <!-- Visual 5: Drive -->
+            <div class="j-cinema-layer" id="vis-5">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop" alt="Silent Drive">
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. HUD -->
+    <section id="hud-section" class="j-section">
+        <div class="j-container">
+            <div class="j-hud-display">
+                <div class="j-hud-metric">
+                    <span class="j-hud-val" data-target="850">0</span>
+                    <span class="j-hud-label">Watts Generated</span>
+                </div>
+                <div class="j-hud-metric">
+                    <span class="j-hud-val" data-target="124">0</span>
+                    <span class="j-hud-label">Heart Rate</span>
+                </div>
+                <div class="j-hud-metric">
+                    <span class="j-hud-val" data-target="45">0</span>
+                    <span class="j-hud-label">V02 Max</span>
+                </div>
+            </div>
+
+            <div class="j-hud-graph">
+                <!-- SVG Pulse Line -->
+                <svg width="100%" height="100%" viewBox="0 0 800 150" preserveAspectRatio="none">
+                    <path class="j-svg-line" d="M0,75 Q50,75 100,75 T200,75 T300,75 L320,10 L340,140 L360,75 T800,75" />
+                </svg>
+            </div>
+            <p style="margin-top:20px;">Live Bio-Feedback Visualization</p>
+        </div>
+    </section>
+
+    <!-- 5. SILENCE -->
+    <section id="silence-section" class="j-section">
+        <div class="j-wave-container" id="j-wave-container">
+            <!-- JS will inject bars here -->
+        </div>
+        <div class="j-silence-text">
+            <h2>Pure Silence</h2>
+            <p>Mag-Drive Technology eliminates friction.</p>
+        </div>
+    </section>
+
+    <!-- 6. CONFIGURATOR -->
+    <section id="config-section" class="j-section">
+        <div class="j-config-header">
+            <h2>Build Your Set</h2>
+            <p>Modular systems designed for any space.</p>
+        </div>
+
+        <div class="j-masonry">
+            <div class="j-tile"><img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&w=800&auto=format&fit=crop"></div>
+            <div class="j-tile"><img src="https://images.unsplash.com/photo-1540497077202-7c8a33801f0a?q=80&w=800&auto=format&fit=crop"></div>
+            <div class="j-tile"><img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=800&auto=format&fit=crop"></div>
+            <div class="j-tile"><img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=800&auto=format&fit=crop"></div>
+        </div>
+
+        <div class="j-mag-btn-wrap">
+            <button class="j-mag-btn">Configure</button>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // --- 0. VIDEO PLAYLIST LOGIC ---
+            const videoPlaylist = [
+                "https://assets.zyrosite.com/dWxL2je49ks9BZq5/036a3425-o4UV4OqXLYVtwpi3.mp4",
+                "https://assets.zyrosite.com/dWxL2je49ks9BZq5/036a3494-4rYKGlVayIbTSlge.mp4",
+                "https://assets.zyrosite.com/dWxL2je49ks9BZq5/036a3507-v9djTpuFY2C41yvj.mp4",
+                "https://assets.zyrosite.com/dWxL2je49ks9BZq5/036a3529-GIlyGoopdjXlnu1w.mp4"
+            ];
+            
+            const heroVideoEl = document.getElementById("j-hero-video-el");
+            let currentVideoIdx = 0;
+
+            if (heroVideoEl) {
+                // Initialize first video
+                heroVideoEl.src = videoPlaylist[0];
+                
+                // When video ends, play next
+                heroVideoEl.addEventListener('ended', () => {
+                    currentVideoIdx = (currentVideoIdx + 1) % videoPlaylist.length;
+                    heroVideoEl.src = videoPlaylist[currentVideoIdx];
+                    heroVideoEl.play().catch(e => console.log("Play error:", e));
+                });
+            }
+
+            // --- 1. HERO PARALLAX & SCAN ---
+            // Parallax Logic
+            const heroSection = document.getElementById("hero-section");
+            const heroVideoWrap = document.querySelector(".j-hero-video-wrap");
+            const heroContent = document.querySelector(".j-hero-content");
+
+            if(heroSection) {
+                heroSection.addEventListener("mousemove", (e) => {
+                    // Normalize mouse position (-0.5 to 0.5)
+                    const x = (e.clientX / window.innerWidth) - 0.5;
+                    const y = (e.clientY / window.innerHeight) - 0.5;
+                    
+                    // Move video opposite to mouse (Background depth)
+                    gsap.to(heroVideoWrap, {
+                        x: -x * 50, // Move max 50px
+                        y: -y * 50,
+                        duration: 1,
+                        ease: "power2.out"
+                    });
+
+                    // Move text slightly with mouse (Foreground depth)
+                    // Only apply if text hasn't moved to corner yet (checked by class or state, 
+                    // but simple override is fine for this interaction)
+                    gsap.to(heroContent, {
+                        x: x * 20, 
+                        y: y * 20,
+                        duration: 1,
+                        ease: "power2.out",
+                        overwrite: "auto" // Prevent conflict with intro animation
+                    });
+                });
+            }
+
+            // Scan Animation Sequence (Auto-play on load)
+            const heroTl = gsap.timeline({
+                delay: 0.5
+            });
+
+            // 1. Reveal Text (Scan effect)
+            heroTl.to(".j-hero-title", { backgroundPosition: "0% 0%", ease: "none", duration: 2 })
+                  .to(".j-scan-line", { opacity: 1, duration: 0.1 }, 0)
+                  .to(".j-scan-line", { left: "100%", ease: "none", duration: 2 }, 0)
+                  .to(".j-scan-line", { opacity: 0, duration: 0.1 }, "-=0.1");
+            
+            // 2. Wait 2 seconds
+            heroTl.to({}, { duration: 2 });
+
+            // 3. Move to Top Left & Shrink
+            heroTl.to(".j-hero-content", { 
+                scale: 0.6,
+                x: "-35vw", // Move to left
+                y: "-30vh", // Move to top
+                duration: 1.5,
+                ease: "power3.inOut"
+            });
+
+
+            // --- 2. WARP SPEED + SONIC BOOM LOGIC ---
+            const canvas = document.getElementById('j-warp-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                let width, height;
+                let stars = [];
+                const starCount = 600;
+                
+                // Animation State Object (Tweenable)
+                const warpState = {
+                    speed: 2,       // Normal idle speed
+                    flash: 0,       // White screen flash opacity
+                    shockwave: 0    // Distortion radius (0 = none)
+                };
+
+                // Resize
+                function resize() {
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+                    canvas.width = width;
+                    canvas.height = height;
+                }
+                window.addEventListener('resize', resize);
+                resize();
+
+                // Init Stars
+                for(let i=0; i<starCount; i++) {
+                    stars.push({
+                        x: Math.random() * width - width/2,
+                        y: Math.random() * height - height/2,
+                        z: Math.random() * width
+                    });
+                }
+
+                // Animation Loop
+                function animateWarp() {
+                    // Clear with trails
+                    ctx.fillStyle = `rgba(5, 5, 5, 0.5)`; 
+                    ctx.fillRect(0, 0, width, height);
+                    
+                    // Center
+                    const cx = width/2;
+                    const cy = height/2;
+
+                    // Draw Stars
+                    stars.forEach(star => {
+                        star.z -= warpState.speed;
+
+                        if(star.z <= 0) {
+                            star.z = width;
+                            star.x = Math.random() * width - width/2;
+                            star.y = Math.random() * height - height/2;
+                        }
+
+                        let x = (star.x / star.z) * width/2 + cx;
+                        let y = (star.y / star.z) * height/2 + cy;
+                        
+                        // Shockwave distortion
+                        if (warpState.shockwave > 0) {
+                            const dx = x - cx;
+                            const dy = y - cy;
+                            const dist = Math.sqrt(dx*dx + dy*dy);
+                            // Simple ripple calc
+                            const offset = Math.sin(dist * 0.05 - warpState.shockwave * 10) * 20;
+                            x += (dx/dist) * offset;
+                            y += (dy/dist) * offset;
+                        }
+
+                        // Size depends on Z (closer = bigger)
+                        const size = Math.max(0, (1 - star.z / width) * 4);
+                        
+                        // Color Logic: Yellow at low speed, White at high
+                        ctx.fillStyle = warpState.speed > 30 ? '#FFFFFF' : '#FFE01E';
+                        ctx.strokeStyle = warpState.speed > 30 ? '#FFFFFF' : '#FFE01E';
+
+                        ctx.beginPath();
+                        // Stretch stars at high speeds
+                        const trailLen = warpState.speed > 10 ? warpState.speed * 2 : 0;
+                        const prevZ = star.z + trailLen; 
+                        const prevX = (star.x / prevZ) * width/2 + cx;
+                        const prevY = (star.y / prevZ) * height/2 + cy;
+                        
+                        ctx.moveTo(prevX, prevY);
+                        ctx.lineTo(x, y);
+                        ctx.lineWidth = size/2;
+                        ctx.stroke();
+
+                        ctx.beginPath();
+                        ctx.arc(x, y, size/2, 0, Math.PI*2);
+                        ctx.fill();
+                    });
+
+                    // Sonic Boom Flash Overlay
+                    if(warpState.flash > 0.01) {
+                        ctx.fillStyle = `rgba(255, 255, 255, ${warpState.flash})`;
+                        ctx.fillRect(0, 0, width, height);
+                    }
+
+                    requestAnimationFrame(animateWarp);
+                }
+                animateWarp();
+
+                // --- SCROLL SEQUENCE ---
+                const warpTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: "#warp-section",
+                        start: "top top",
+                        end: "+=1000%", // Extended scroll for longer sequence
+                        pin: true,
+                        scrub: 0.5
+                    }
+                });
+
+                // Phase 1: Image 1 appears
+                warpTl.to("#j-slide-1", { opacity: 1, scale: 1, duration: 1 })
+                      .to({}, { duration: 1 }) // Hold
+                      // Phase 2: SONIC BOOM!
+                      .to("#j-slide-1", { scale: 3, opacity: 0, duration: 0.5, ease: "power2.in" })
+                      .to(warpState, { speed: 80, flash: 0.8, shockwave: 1, duration: 0.2 }, "<")
+                      .to(warpState, { speed: 2, flash: 0, shockwave: 0, duration: 1 }) // Cooldown
+                      
+                      // Phase 3: Image 2 appears
+                      .to("#j-slide-2", { opacity: 1, scale: 1, duration: 1 })
+                      .to({}, { duration: 1 }) // Hold
+                      // Phase 4: SONIC BOOM 2!
+                      .to("#j-slide-2", { scale: 3, opacity: 0, duration: 0.5, ease: "power2.in" })
+                      .to(warpState, { speed: 80, flash: 0.8, shockwave: 1, duration: 0.2 }, "<")
+                      .to(warpState, { speed: 2, flash: 0, shockwave: 0, duration: 1 }) // Cooldown
+
+                      // Phase 5: Image 3 appears
+                      .to("#j-slide-3", { opacity: 1, scale: 1, duration: 1 })
+                      .to({}, { duration: 1 }) // Hold
+                      // Phase 6: SONIC BOOM 3!
+                      .to("#j-slide-3", { scale: 3, opacity: 0, duration: 0.5, ease: "power2.in" })
+                      .to(warpState, { speed: 80, flash: 0.8, shockwave: 1, duration: 0.2 }, "<")
+                      .to(warpState, { speed: 2, flash: 0, shockwave: 0, duration: 1 }) // Cooldown
+
+                      // Phase 7: Image 4 appears
+                      .to("#j-slide-4", { opacity: 1, scale: 1, duration: 1 })
+                      .to({}, { duration: 1 }) // Hold
+                      // Phase 8: SONIC BOOM 4!
+                      .to("#j-slide-4", { scale: 3, opacity: 0, duration: 0.5, ease: "power2.in" })
+                      .to(warpState, { speed: 80, flash: 0.8, shockwave: 1, duration: 0.2 }, "<")
+                      .to(warpState, { speed: 2, flash: 0, shockwave: 0, duration: 1 }) // Cooldown
+
+                      // Phase 9: Image 5 appears
+                      .to("#j-slide-5", { opacity: 1, scale: 1, duration: 1 })
+                      .to({}, { duration: 1 }) // Hold
+                      // Phase 10: SONIC BOOM 5!
+                      .to("#j-slide-5", { scale: 3, opacity: 0, duration: 0.5, ease: "power2.in" })
+                      .to(warpState, { speed: 80, flash: 0.8, shockwave: 1, duration: 0.2 }, "<")
+                      .to(warpState, { speed: 2, flash: 0, shockwave: 0, duration: 1 }) // Cooldown
+
+                      // Phase 11: Final Logo
+                      .to("#j-slide-6", { opacity: 1, scale: 1, duration: 1 })
+                      .to({}, { duration: 2 }); // Final Hold
+            }
+
+
+            // --- 3. ATELIER: CINEMA SCROLLER ---
+            // Visual Elements
+            const cinemaLayers = document.querySelectorAll('.j-cinema-layer');
+            const cinemaBlocks = document.querySelectorAll('.j-cinema-block');
+
+            // ScrollTrigger for each text block
+            cinemaBlocks.forEach((block, i) => {
+                const targetId = block.getAttribute('data-target');
+                const targetLayer = document.getElementById(targetId);
+
+                ScrollTrigger.create({
+                    trigger: block,
+                    start: "top center", // When block hits center
+                    end: "bottom center",
+                    onEnter: () => {
+                        // Activate new layer
+                        cinemaLayers.forEach(l => l.classList.remove('active'));
+                        if(targetLayer) targetLayer.classList.add('active');
+                    },
+                    onEnterBack: () => {
+                        // Activate logic for scrolling up
+                        cinemaLayers.forEach(l => l.classList.remove('active'));
+                        if(targetLayer) targetLayer.classList.add('active');
+                    }
+                });
+            });
+
+
+            // --- 4. HUD COUNTERS & GRAPH ---
+            // Animate Numbers
+            gsap.utils.toArray(".j-hud-val").forEach(el => {
+                const target = el.getAttribute("data-target");
+                ScrollTrigger.create({
+                    trigger: el,
+                    start: "top 80%",
+                    once: true,
+                    onEnter: () => {
+                        gsap.to(el, {
+                            innerText: target,
+                            duration: 2,
+                            snap: { innerText: 1 },
+                            ease: "power2.out"
+                        });
+                    }
+                });
+            });
+
+            // Draw SVG Line
+            const path = document.querySelector(".j-svg-line");
+            const length = path.getTotalLength();
+            gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+
+            gsap.to(path, {
+                strokeDashoffset: 0,
+                duration: 2,
+                ease: "power2.inOut",
+                scrollTrigger: {
+                    trigger: "#hud-section",
+                    start: "top 70%"
+                }
+            });
+
+
+            // --- 5. SILENCE WAVEFORM ---
+            // Create bars
+            const waveContainer = document.getElementById("j-wave-container");
+            const barCount = 40;
+            for(let i=0; i<barCount; i++){
+                const bar = document.createElement("div");
+                bar.classList.add("j-bar");
+                waveContainer.appendChild(bar);
+            }
+
+            // Animate from CHAOS (high random height) to ORDER (flat line)
+            gsap.fromTo(".j-bar", 
+                { 
+                    height: () => Math.random() * 200 + 10, // Random height 10-210px
+                    background: "#555"
+                },
+                {
+                    height: 10, // Flat line
+                    background: "#FFE01E", // Turn Yellow
+                    stagger: {
+                        amount: 1,
+                        from: "center"
+                    },
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: "#silence-section",
+                        start: "top 60%",
+                        end: "bottom 80%",
+                        scrub: 1
+                    }
+                }
+            );
+
+            gsap.to(".j-silence-text", {
+                opacity: 1,
+                y: -20,
+                scrollTrigger: { trigger: "#silence-section", start: "center 60%" }
+            });
+
+
+            // --- 6. MAGNETIC BUTTON ---
+            const magBtn = document.querySelector(".j-mag-btn");
+            
+            magBtn.addEventListener("mousemove", (e) => {
+                const rect = magBtn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                // Magnetic strength divider (lower = stronger pull)
+                gsap.to(magBtn, { x: x * 0.5, y: y * 0.5, duration: 0.3, ease: "power2.out" });
+            });
+
+            magBtn.addEventListener("mouseleave", () => {
+                gsap.to(magBtn, { x: 0, y: 0, duration: 1, ease: "elastic.out(1, 0.3)" });
+            });
+
+            // Masonry pop-in
+            gsap.from(".j-tile", {
+                y: 100,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: ".j-masonry",
+                    start: "top 80%"
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

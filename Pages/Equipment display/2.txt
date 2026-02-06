@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titan X-900 Performance Scroll</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-neutral: #f4f4f4;
+            --bg-white: #ffffff;
+            --accent-orange: #f27f3d;
+            --accent-dark-orange: #b45e2c; /* Used for big numbers */
+            --text-dark: #222222;
+            --text-grey: #666666;
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-neutral);
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3 {
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        p {
+            color: var(--text-grey);
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        /* --- HEADER --- */
+        .hero-header {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--bg-neutral);
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .accent {
+            color: var(--accent-orange);
+        }
+
+        /* --- Z-PATTERN LAYOUT CONTAINER --- */
+        .z-container {
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        /* The Individual Row */
+        .z-row {
+            display: flex;
+            flex-direction: column; /* Mobile First: Stack vertically */
+            width: 100%;
+            min-height: 60vh; /* Ensure each section feels substantial */
+        }
+
+        /* Alternating Backgrounds */
+        .z-row:nth-child(odd) {
+            background-color: var(--bg-white);
+        }
+        .z-row:nth-child(even) {
+            background-color: var(--bg-neutral);
+        }
+
+        /* The Image Side */
+        .z-image-col {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .z-image-col img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures image covers area without stretch */
+            object-position: center;
+            transition: transform 0.5s ease;
+        }
+
+        /* The Content Side */
+        .z-content-col {
+            width: 100%;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start; /* Left align text */
+        }
+
+        /* Big Impact Numbers */
+        .big-stat {
+            font-family: var(--font-heading);
+            font-size: 5rem;
+            color: var(--accent-dark-orange);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 10px;
+            display: block;
+            opacity: 0; /* Hidden for animation */
+            transform: translateY(20px);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        /* Decorative line under title */
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-orange);
+            margin-top: 10px;
+        }
+
+        /* --- CTA BUTTON --- */
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-orange);
+            color: var(--bg-white);
+            padding: 15px 30px;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-dark-orange);
+        }
+
+        /* --- ANIMATION CLASSES --- */
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- DESKTOP STYLES (768px+) --- */
+        @media (min-width: 768px) {
+            .hero-title {
+                font-size: 4rem;
+            }
+
+            .z-row {
+                flex-direction: row; /* Side by side */
+                min-height: 500px;
+            }
+
+            /* The "Z" Logic: Reverse every even row */
+            .z-row:nth-child(even) {
+                flex-direction: row-reverse;
+            }
+
+            .z-image-col, .z-content-col {
+                width: 50%; /* Split screen 50/50 */
+                height: auto; /* Let content dictate height or min-height */
+            }
+            
+            .z-content-col {
+                padding: 60px 80px; /* More breathing room */
+            }
+
+            /* Parallax-ish effect on hover */
+            .z-row:hover .z-image-col img {
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero-header">
+        <h1 class="hero-title">Titan <span class="accent">X-900</span></h1>
+        <p>Engineered for Human Performance</p>
+    </header>
+
+    <div class="z-container">
+
+        <!-- SECTION 1: PRIMARY (Image Left, Text Right) -->
+        <div class="z-row">
+            <div class="z-image-col">
+                <!-- Using your Dropbox Image (Main Product) -->
+                <img src="https://www.dropbox.com/scl/fi/dxscop427mdgnjxnvcill/18-1024x1024.webp?rlkey=epba6k7t2ka7ztqb5otex1nnd&st=hyfhvt5q&raw=1" alt="Titan X-900 Gym Machine">
+            </div>
+            <div class="z-content-col">
+                <span class="big-stat reveal-text">1000<small style="font-size: 2rem;">LBS</small></span>
+                <h2 class="section-title reveal-text">Structural Capacity</h2>
+                <p class="reveal-text">Built with 11-gauge industrial steel, the X-900 frame is robotic-welded to handle extreme loads. Whether you're maxing out or performing high-speed functional movements, this base never wavers.</p>
+                <a href="#" class="btn reveal-text">View Dimensions</a>
+            </div>
+        </div>
+
+        <!-- SECTION 2: PERFORMANCE (Text Left, Image Right) -->
+        <div class="z-row">
+            <div class="z-image-col">
+                <!-- Placeholder Action Shot -->
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2670&auto=format&fit=crop" alt="Athlete using cables">
+            </div>
+            <div class="z-content-col">
+                <span class="big-stat reveal-text">180&deg;</span>
+                <h2 class="section-title reveal-text">Frictionless Pulleys</h2>
+                <p class="reveal-text">Experience true freedom of movement. Our aluminum swivel pulleys rotate 180 degrees, allowing for complex cable crossovers, woodchops, and sport-specific training without any cable drag.</p>
+            </div>
+        </div>
+
+        <!-- SECTION 3: TECH SPECS (Image Left, Text Right) -->
+        <div class="z-row">
+            <div class="z-image-col">
+                <!-- Detail Shot Placeholder -->
+                <img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&w=2669&auto=format&fit=crop" alt="Weight Stack Detail">
+            </div>
+            <div class="z-content-col">
+                <span class="big-stat reveal-text">2:1</span>
+                <h2 class="section-title reveal-text">Lift Ratio</h2>
+                <p class="reveal-text">The precision weight stack offers a 2:1 lift ratio, providing smoother travel and finer incremental jumps. Perfect for rehabilitation, isolation work, and explosive power training.</p>
+                <a href="#" class="btn reveal-text">Download Spec Sheet</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SIMPLE FOOTER -->
+    <div style="text-align: center; padding: 40px; background: #222; color: #fff;">
+        <h2>Ready to upgrade?</h2>
+        <br>
+        <button class="btn">Request Quote</button>
+    </div>
+
+    <script>
+        // --- SCROLL ANIMATION LOGIC ---
+        
+        // We use IntersectionObserver to detect when elements enter the viewport
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15 // Trigger when 15% of the element is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Stop observing once animated
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        // Target all elements with the 'reveal-text' class
+        document.querySelectorAll('.reveal-text').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+</body>
+</html>

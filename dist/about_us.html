@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>About Us - Jaguar Fitness</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- GSAP Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    
+
+    <!-- CONTENT STYLES -->
+    
+
+    <!-- FOOTER STYLES -->
+    
+
+  <script type="module" crossorigin src="/assets/main-CmNXe1vT.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-B6lbRanm.css">
+  <link rel="stylesheet" crossorigin href="/assets/about-D4MQhVq-.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <!-- Header injected by main.js -->
+
+    
+
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+        <img src="https://assets.zyrosite.com/dWxL2je49ks9BZq5/page_44_1-TVDm3hgwhHvRUbMe.webp" class="page-hero-bg"
+            alt="Gym Background">
+        <div class="page-hero-content">
+            <h1 class="page-title">About Us</h1>
+            <div class="page-subtitle">Pioneering Wellness Since 1983</div>
+        </div>
+    </section>
+
+    <!-- CONTENT -->
+    <div class="content-container">
+
+        <div class="content-section grid-2">
+            <div>
+                <h2>Our Story</h2>
+                <p>
+                    Jaguar Fitness began with a singular vision: to create equipment that doesn't just train the body,
+                    but inspires the human spirit.
+                </p>
+                <p>
+                    For over four decades, we have been at the forefront of the fitness revolution, combining
+                    biomechanical precision with Italian design elegance. What started as a small workshop has grown
+                    into a global leader in wellness solutions, powering Olympic villages, luxury hotels, and private
+                    homes around the world.
+                </p>
+            </div>
+            <div>
+                <img src="https://assets.zyrosite.com/dWxL2je49ks9BZq5/036a3411-efnzVJrameBUOwcb.webp" class="about-img"
+                    alt="Our Story">
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Our Mission</h2>
+            <p>
+                To help people live better everywhere. We believe that movement is the key to a healthy life. Our
+                mission is to promote the Wellness lifestyle—a balanced approach to life that includes regular physical
+                activity, a healthy diet, and a positive mental attitude.
+            </p>
+
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <span class="stat-number">100+</span>
+                    <span class="stat-label">Countries</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">50M</span>
+                    <span class="stat-label">Daily Users</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">85K</span>
+                    <span class="stat-label">Wellness Centers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">40+</span>
+                    <span class="stat-label">Years of Innovation</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Sustainability</h2>
+            <p>
+                We define business success not just by financial results, but by our environmental and social impact.
+                Jaguar Fitness is committed to sustainable manufacturing, reducing our carbon footprint, and creating
+                products that last a lifetime.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <!-- Footer injected by main.js -->
+
+    <script>
+        // GSAP Entrance
+        gsap.from(".page-title", { opacity: 0, y: 30, duration: 1, delay: 0.2 });
+        gsap.from(".page-subtitle", { opacity: 0, y: 20, duration: 1, delay: 0.4 });
+        gsap.from(".content-section", {
+            scrollTrigger: {
+                trigger: ".content-section",
+                start: "top 80%"
+            },
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2
+        });
+    </script>
+</body>
+
+</html>

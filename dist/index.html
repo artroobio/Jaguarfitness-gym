@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Jaguar Fitness - Empowering Human Performance</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- GSAP Libraries (Loaded once in head for global access) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    
+
+  <script type="module" crossorigin src="/assets/main-CmNXe1vT.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-B6lbRanm.css">
+  <link rel="stylesheet" crossorigin href="/assets/main-EExYu786.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <!-- Header injected by main.js -->
+
+    
+
+    <!-- HERO SECTION -->
+    
+
+    <div id="j-hero-root">
+
+        <div class="j-background-slider">
+            <div class="j-slide">
+                <video class="j-video-bg" autoplay loop muted playsinline>
+                    <source src="https://assets.zyrosite.com/dWxL2je49ks9BZq5/036a3229-4oNAf5nDTIIIA7qB.mp4"
+                        type="video/mp4">
+                </video>
+            </div>
+            <div class="j-slide">
+                <img src="https://assets.zyrosite.com/dWxL2je49ks9BZq5/page_44_1-TVDm3hgwhHvRUbMe.webp"
+                    alt="Gym Weights" class="j-image-bg">
+            </div>
+            <div class="j-slide">
+                <img src="https://assets.zyrosite.com/dWxL2je49ks9BZq5/036a3411-efnzVJrameBUOwcb.webp"
+                    alt="Battle Ropes" class="j-image-bg">
+            </div>
+        </div>
+
+        <div class="j-hero-content">
+            <h1 class="j-hero-title">Empowering<br>Human<br>Performance</h1>
+            <p class="j-hero-subtitle">
+                Jaguar Fitness is the strength behind the next generation of champions who are ready to rewrite history.
+            </p>
+            <a href="#" class="j-hero-btn">Grow with Jaguar</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // --- 1. TEXT ANIMATION ---
+            gsap.to(".j-hero-title", { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.5 });
+            gsap.to(".j-hero-subtitle", { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.8 });
+            gsap.to(".j-hero-btn", { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 1.1 });
+
+            // --- 2. BACKGROUND SLIDER WITH KEN BURNS ---
+            const slides = gsap.utils.toArray(".j-slide");
+            let currentSlide = slides[0];
+
+            gsap.set(slides[0], { autoAlpha: 1 });
+            gsap.set(slides.slice(1), { autoAlpha: 0 });
+
+            function rotateSlides() {
+                let nextSlide = slides[(slides.indexOf(currentSlide) + 1) % slides.length];
+
+                let currentImage = currentSlide.querySelector('.j-image-bg');
+                let nextImage = nextSlide.querySelector('.j-image-bg');
+
+                let tl = gsap.timeline({
+                    onComplete: () => {
+                        currentSlide = nextSlide;
+                        gsap.delayedCall(4, rotateSlides);
+                    }
+                });
+
+                if (currentImage) { gsap.set(currentImage, { scale: 1 }); }
+
+                tl.to(currentSlide, { autoAlpha: 0, duration: 2, ease: "power2.inOut" })
+                    .to(nextSlide, { autoAlpha: 1, duration: 2, ease: "power2.inOut" }, "<");
+
+                if (nextImage) {
+                    gsap.set(nextImage, { scale: 1 });
+                    tl.to(nextImage, { scale: 1.15, duration: 7, ease: "none" }, "<");
+                }
+            }
+
+            gsap.delayedCall(4, rotateSlides);
+        });
+    </script>
+
+    <!-- SCROLL SECTION -->
+    
+
+    <div id="jaguar-section-3">
+
+        <div class="j-header">
+            <div>
+                <h2 class="j-headline">Elegantly Designed.<br>Fueled by Technology.</h2>
+                <p style="margin:0; color:#666;">Transform your space with the best equipment.</p>
+            </div>
+            <a href="#" class="j-btn-outline-dark">View All Products →</a>
+        </div>
+
+        <div class="j-scroll-wrapper" id="jScrollContainer">
+            <div class="j-track">
+
+                <div class="j-card">
+                    <div class="j-img-wrap"><img
+                            src="https://images.ctfassets.net/ipjoepkmtnha/5jB7uV4syaqNBDEkUEN4lB/f73e7315fac8c2adb1888059dd54212d/myrun-lateral-white-metal-logo.jpg?w=600"
+                            class="j-img"></div>
+                    <div class="j-card-info">
+                        <div><span class="j-cat">Treadmills</span>
+                            <h3 class="j-title">Jaguar MyRun</h3>
+                            <div class="j-price">₹4,00,000</div>
+                        </div>
+                        <div class="j-arrow">→</div>
+                    </div>
+                </div>
+
+                <div class="j-card">
+                    <div class="j-img-wrap"><img
+                            src="https://images.ctfassets.net/ipjoepkmtnha/1ebTSsUYN3kJPEdswLOgDo/872864ecf09f6d949add3fd230884b66/technogym-benchlateral-white.jpg?w=600"
+                            class="j-img"></div>
+                    <div class="j-card-info">
+                        <div><span class="j-cat">Strength</span>
+                            <h3 class="j-title">Jaguar Bench</h3>
+                            <div class="j-price">₹1,65,000</div>
+                        </div>
+                        <div class="j-arrow">→</div>
+                    </div>
+                </div>
+
+                <div class="j-card">
+                    <div class="j-img-wrap"><img
+                            src="https://images.ctfassets.net/ipjoepkmtnha/6jBPntrSk1VfESP3YV4GsW/c3ec9fba0523a5dae3dd0ac70c234ec0/ride-white-lateral.jpg?w=600"
+                            class="j-img"></div>
+                    <div class="j-card-info">
+                        <div><span class="j-cat">Bikes</span>
+                            <h3 class="j-title">Jaguar Ride</h3>
+                            <div class="j-price">₹5,25,000</div>
+                        </div>
+                        <div class="j-arrow">→</div>
+                    </div>
+                </div>
+
+                <div class="j-card">
+                    <div class="j-img-wrap"><img
+                            src="https://images.ctfassets.net/ipjoepkmtnha/5vDn4Wcq139ifZyj7BDdlO/bde4041dd3aabb9b10b0803f06482699/artis-run-lateral-white.jpg?w=600"
+                            class="j-img"></div>
+                    <div class="j-card-info">
+                        <div><span class="j-cat">Treadmills</span>
+                            <h3 class="j-title">Artis Run</h3>
+                            <div class="j-price">₹13,99,000</div>
+                        </div>
+                        <div class="j-arrow">→</div>
+                    </div>
+                </div>
+
+                <div class="j-card">
+                    <div class="j-img-wrap"><img
+                            src="https://images.ctfassets.net/ipjoepkmtnha/5jB7uV4syaqNBDEkUEN4lB/f73e7315fac8c2adb1888059dd54212d/myrun-lateral-white-metal-logo.jpg?w=600"
+                            class="j-img"></div>
+                    <div class="j-card-info">
+                        <div><span class="j-cat">Ellipticals</span>
+                            <h3 class="j-title">Jaguar Cross</h3>
+                            <div class="j-price">₹8,50,000</div>
+                        </div>
+                        <div class="j-arrow">→</div>
+                    </div>
+                </div>
+
+                <div class="j-card">
+                    <div class="j-img-wrap"><img
+                            src="https://images.ctfassets.net/ipjoepkmtnha/6jBPntrSk1VfESP3YV4GsW/c3ec9fba0523a5dae3dd0ac70c234ec0/ride-white-lateral.jpg?w=600"
+                            class="j-img"></div>
+                    <div class="j-card-info">
+                        <div><span class="j-cat">Cycles</span>
+                            <h3 class="j-title">Jaguar Cycle</h3>
+                            <div class="j-price">₹3,75,000</div>
+                        </div>
+                        <div class="j-arrow">→</div>
+                    </div>
+                </div>
+
+                <div class="j-card">
+                    <div class="j-img-wrap"><img
+                            src="https://images.ctfassets.net/ipjoepkmtnha/1ebTSsUYN3kJPEdswLOgDo/872864ecf09f6d949add3fd230884b66/technogym-benchlateral-white.jpg?w=600"
+                            class="j-img"></div>
+                    <div class="j-card-info">
+                        <div><span class="j-cat">Accessories</span>
+                            <h3 class="j-title">Jaguar Kit</h3>
+                            <div class="j-price">₹95,000</div>
+                        </div>
+                        <div class="j-arrow">→</div>
+                    </div>
+                </div>
+
+                <div class="j-card">
+                    <div class="j-img-wrap"><img
+                            src="https://images.ctfassets.net/ipjoepkmtnha/5vDn4Wcq139ifZyj7BDdlO/bde4041dd3aabb9b10b0803f06482699/artis-run-lateral-white.jpg?w=600"
+                            class="j-img"></div>
+                    <div class="j-card-info">
+                        <div><span class="j-cat">Performance</span>
+                            <h3 class="j-title">Skill Run</h3>
+                            <div class="j-price">₹16,50,000</div>
+                        </div>
+                        <div class="j-arrow">→</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const slider = document.getElementById("jScrollContainer");
+
+            // Configuration
+            // 0.05 is "heavy/slow", 0.1 is "snappy/fast"
+            const ease = 0.06;
+
+            let currentScroll = 0;
+            let targetScroll = 0;
+            let isDragging = false;
+            let startX;
+            let startScrollLeft;
+            let maxScroll = 0;
+
+            // Initialize
+            function init() {
+                maxScroll = slider.scrollWidth - slider.clientWidth;
+                targetScroll = slider.scrollLeft;
+                currentScroll = slider.scrollLeft;
+                animate();
+            }
+
+            // LERP Animation Loop (The "Lenis" Magic)
+            function animate() {
+                // Formula: current = current + (target - current) * ease
+                // This creates the smooth "catch up" effect
+                currentScroll += (targetScroll - currentScroll) * ease;
+
+                // Apply the scroll
+                slider.scrollLeft = currentScroll;
+
+                // Recalculate maxScroll in case window resized
+                maxScroll = slider.scrollWidth - slider.clientWidth;
+
+                // Keep loop running
+                requestAnimationFrame(animate);
+            }
+
+            // 1. Mouse Wheel Logic
+            slider.addEventListener("wheel", (e) => {
+                // Prevent vertical page scroll ONLY if we have room to scroll horizontally
+                if (
+                    (e.deltaY > 0 && targetScroll < maxScroll - 1) ||
+                    (e.deltaY < 0 && targetScroll > 1)
+                ) {
+                    e.preventDefault();
+                }
+
+                // Add momentum to target
+                targetScroll += e.deltaY * 1.5; // Multiplier for speed
+
+                // Clamp target within bounds
+                targetScroll = Math.max(0, Math.min(targetScroll, maxScroll));
+            }, { passive: false });
+
+
+            // 2. Touch/Drag Logic (Hybrid)
+            // This ensures it works great on phones or if you click+drag with mouse
+            slider.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                slider.classList.add('is-dragging');
+                startX = e.pageX - slider.offsetLeft;
+                startScrollLeft = targetScroll;
+            });
+
+            slider.addEventListener('mouseleave', () => {
+                isDragging = false;
+                slider.classList.remove('is-dragging');
+            });
+
+            slider.addEventListener('mouseup', () => {
+                isDragging = false;
+                slider.classList.remove('is-dragging');
+            });
+
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2; // Drag speed
+                targetScroll = startScrollLeft - walk;
+                targetScroll = Math.max(0, Math.min(targetScroll, maxScroll));
+            });
+
+            // Initialize on load
+            init();
+
+            // --- NEW GSAP ANIMATIONS ---
+            gsap.registerPlugin(ScrollTrigger);
+
+            // 1. Header Elements Animation
+            const headerTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".j-header",
+                    start: "top 80%"
+                }
+            });
+
+            headerTl.from(".j-headline", {
+                y: 60,
+                opacity: 0,
+                duration: 1.2,
+                ease: "power3.out"
+            })
+                .from(".j-header p", {
+                    y: 30,
+                    opacity: 0,
+                    duration: 1,
+                    ease: "power3.out"
+                }, "-=1")
+                .from(".j-btn-outline-dark", {
+                    x: -20,
+                    opacity: 0,
+                    duration: 1,
+                    ease: "power3.out"
+                }, "-=0.8");
+
+            // 2. Product Cards Staggered Entrance
+            gsap.from(".j-card", {
+                scrollTrigger: {
+                    trigger: ".j-scroll-wrapper",
+                    start: "top 75%"
+                },
+                y: 100,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.15, // Ripple effect
+                ease: "back.out(1.7)" // Nice bounce
+            });
+        });
+    </script>
+
+
+    <!-- CATEGORY GRID SECTION -->
+    
+
+    <section id="jaguar-section-4">
+        <h2 class="j-sec-title">Products by Category</h2>
+
+        <div class="j-grid-container">
+
+            <a class="j-cat-card">
+                <img src="https://images.unsplash.com/photo-1576678927484-cc907957088c?q=80&w=600&auto=format&fit=crop"
+                    class="j-cat-img" alt="Treadmills">
+                <div class="j-cat-overlay">
+                    <div class="j-text-wrapper"><span class="j-cat-text">Treadmills</span></div>
+                    <span class="j-cat-line"></span>
+                </div>
+            </a>
+
+            <a class="j-cat-card">
+                <img src="https://images.unsplash.com/photo-1540497077202-7c8a33801f0a?q=80&w=600&auto=format&fit=crop"
+                    class="j-cat-img" alt="Bikes">
+                <div class="j-cat-overlay">
+                    <div class="j-text-wrapper"><span class="j-cat-text">Bikes</span></div>
+                    <span class="j-cat-line"></span>
+                </div>
+            </a>
+
+            <a class="j-cat-card">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&auto=format&fit=crop"
+                    class="j-cat-img" alt="Ellipticals">
+                <div class="j-cat-overlay">
+                    <div class="j-text-wrapper"><span class="j-cat-text">Ellipticals</span></div>
+                    <span class="j-cat-line"></span>
+                </div>
+            </a>
+
+            <a class="j-cat-card">
+                <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=600&auto=format&fit=crop"
+                    class="j-cat-img" alt="Multi Gyms">
+                <div class="j-cat-overlay">
+                    <div class="j-text-wrapper"><span class="j-cat-text">Multi Gyms</span></div>
+                    <span class="j-cat-line"></span>
+                </div>
+            </a>
+
+            <a class="j-cat-card">
+                <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=600&auto=format&fit=crop"
+                    class="j-cat-img" alt="Benches">
+                <div class="j-cat-overlay">
+                    <div class="j-text-wrapper"><span class="j-cat-text">Benches</span></div>
+                    <span class="j-cat-line"></span>
+                </div>
+            </a>
+
+            <a class="j-cat-card">
+                <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=600&auto=format&fit=crop"
+                    class="j-cat-img" alt="Free Weights">
+                <div class="j-cat-overlay">
+                    <div class="j-text-wrapper"><span class="j-cat-text">Free Weights</span></div>
+                    <span class="j-cat-line"></span>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+    <script>
+        window.addEventListener("load", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // --- Title Animation ---
+            const title = document.querySelector(".j-sec-title");
+            if (title) {
+                const textContent = title.innerText;
+                title.innerHTML = '';
+                textContent.split('').forEach(char => {
+                    const span = document.createElement('span');
+                    span.classList.add('char');
+                    span.innerText = char;
+                    if (char === ' ') span.style.width = '0.3em';
+                    title.appendChild(span);
+                });
+
+                gsap.from(".j-sec-title .char", {
+                    scrollTrigger: {
+                        trigger: ".j-sec-title",
+                        start: "top 90%",
+                    },
+                    y: 50,
+                    opacity: 0,
+                    rotateX: -90,
+                    stagger: 0.02,
+                    duration: 1,
+                    ease: "back.out(1.5)"
+                });
+            }
+
+            // --- Grid Entrance (Enhanced Pop) ---
+            gsap.to(".j-cat-card", {
+                scrollTrigger: {
+                    trigger: ".j-grid-container",
+                    start: "top 80%",
+                },
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 0.8,
+                stagger: {
+                    amount: 0.6,
+                    grid: [2, 3],
+                    from: "center"
+                },
+                ease: "back.out(1.2)" // Bounce effect
+            });
+
+            // --- Setup Initial Hover States ---
+            gsap.set(".j-cat-card", { y: 60, opacity: 0, scale: 0.9 }); // Reset for the animation above to work from
+
+            // --- Hover Effects ---
+            const cards = document.querySelectorAll(".j-cat-card");
+            cards.forEach(card => {
+                const img = card.querySelector(".j-cat-img");
+                const text = card.querySelector(".j-cat-text");
+                const line = card.querySelector(".j-cat-line");
+                const overlay = card.querySelector(".j-cat-overlay");
+
+                // Define hover timeline (paused initially)
+                const tl = gsap.timeline({ paused: true });
+
+                tl.to(img, { scale: 1.15, duration: 0.6, ease: "power2.out" }, 0)
+                    .to(text, { y: -8, color: "#FFE01E", duration: 0.4, ease: "power2.out" }, 0)
+                    .to(line, { width: "100%", duration: 0.5, ease: "power4.out" }, 0)
+                    .to(overlay, { background: "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 100%)", duration: 0.4 }, 0);
+
+                card.addEventListener("mouseenter", () => tl.play());
+                card.addEventListener("mouseleave", () => tl.reverse());
+            });
+        });
+    </script>
+
+    <!-- TEETH PARALLAX SECTION -->
+    
+
+    <div id="jaguar-section-5">
+
+        <div class="j-bg-layer"></div>
+        <h2 class="j-teeth-text">JAGUAR<br>FITNESS</h2>
+        <div id="j-teeth-container"></div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const container = document.getElementById('j-teeth-container');
+            const section = document.getElementById('jaguar-section-5');
+
+            // 1. Generate 10 Bars
+            const slicesCount = 10;
+            for (let i = 0; i < slicesCount; i++) {
+                const div = document.createElement('div');
+                div.classList.add('j-tooth-slice');
+                div.style.width = (100 / slicesCount) + '%';
+                container.appendChild(div);
+            }
+
+            // 2. The Animation (Teeth Reveal)
+            gsap.to(".j-tooth-slice", {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top top",
+                    end: "+=200%", // Scroll distance required to complete animation
+                    scrub: 1,
+                    pin: true,     // Locks section in place while animating
+                },
+                // Even UP (-100%), Odd DOWN (100%)
+                yPercent: (i) => (i % 2 === 0 ? -100 : 100),
+
+                // STAGGER: Left to Right opening
+                stagger: 0.05,
+
+                ease: "power2.inOut"
+            });
+
+            // 3. Ken Burns Effect
+            gsap.to(".j-bg-layer", {
+                scale: 1.15,
+                duration: 20,
+                ease: "none",
+                repeat: -1,
+                yoyo: true
+            });
+        });
+    </script>
+
+    <!-- SCROLLER SECTION -->
+    
+
+    <div id="j-scroller-section">
+        <div class="j-scroll-container">
+            <div class="j-scroll-content" id="j-scroll-content-track">
+                <!-- JS Injects Items Here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const words = [
+                "Gyms", "Equipment", "Workout", "Cardio", "Strength",
+                "Endurance", "Wellness", "Nutrition", "Community",
+                "Performance", "Recovery", "Lifestyle", "Training", "Health"
+            ];
+
+            const track = document.getElementById('j-scroll-content-track');
+
+            // We duplicate the list to create a seamless loop
+            // The animation translates -50%, which corresponds to exactly one set of words
+            const fullList = [...words, ...words];
+
+            fullList.forEach(word => {
+                const el = document.createElement('div');
+                el.className = 'j-scroll-item';
+                el.innerText = word;
+                track.appendChild(el);
+            });
+        });
+    </script>
+
+    <!-- VIDEO SHOWCASE SECTION -->
+    
+
+    <div id="j-video-showcase">
+        <video class="j-showcase-video" autoplay loop muted playsinline>
+            <source src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/293079_small-bKnSPT3kXqqYg68C.mp4"
+                type="video/mp4">
+        </video>
+        <div class="j-showcase-overlay"></div>
+
+        <div class="j-showcase-content">
+            <h2 class="j-showcase-title" id="j-anim-title">JAGUAR FITNESS</h2>
+            <div class="j-subtitle-wrap">
+                <p class="j-showcase-subtitle">Let's Begin Your Journey</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const title = document.getElementById('j-anim-title');
+            const video = document.querySelector('.j-showcase-video');
+
+            // 1. SPLIT TEXT MANUALLY (No SplitText plugin needed)
+            const text = title.innerText;
+            title.innerHTML = text.split("").map(char =>
+                `<span class="j-char">${char === " " ? "&nbsp;" : char}</span>`
+            ).join("");
+
+            const chars = document.querySelectorAll('.j-char');
+
+            // 2. PARALLAX VIDEO
+            gsap.to(video, {
+                yPercent: 20,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#j-video-showcase",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // 3. MAIN ANIMATION TIMELINE
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#j-video-showcase",
+                    start: "top 60%", // Starts when top of section hits 60% of viewport
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            // Elastic Text Entrance
+            tl.from(chars, {
+                duration: 1.2,
+                opacity: 0,
+                scale: 0,
+                y: 100,
+                rotationX: 180,
+                transformOrigin: "0% 50% -50",
+                ease: "back.out(2)",
+                stagger: 0.05
+            })
+                // Glow Pulse Effect after entrance
+                .to(chars, {
+                    textShadow: "0 0 80px rgba(255,224,30,0.8), 0 0 20px rgba(255,255,255,0.8)",
+                    color: "#FFF", // Flash white briefly
+                    duration: 0.1,
+                    stagger: {
+                        each: 0.02,
+                        from: "center",
+                        yoyo: true,
+                        repeat: 1
+                    }
+                })
+                .to(chars, {
+                    color: "#FFE01E", // Back to yellow
+                    duration: 0.1
+                })
+                // Subtitle Slide Up
+                .to(".j-showcase-subtitle", {
+                    opacity: 1,
+                    y: 0,
+                    padding: "10px 40px", // Expand padding animation
+                    duration: 1,
+                    ease: "power2.out"
+                }, "-=0.5");
+
+            // 4. MOUSE MOVE EFFECT (3D Tilt on Text)
+            const container = document.getElementById('j-video-showcase');
+            container.addEventListener('mousemove', (e) => {
+                const { width, height, left, top } = container.getBoundingClientRect();
+                const x = (e.clientX - left) / width - 0.5;
+                const y = (e.clientY - top) / height - 0.5;
+
+                gsap.to(chars, {
+                    duration: 1,
+                    x: (i) => x * 50, // Slight movement
+                    y: (i) => y * 50,
+                    rotationY: x * 20,
+                    rotationX: -y * 20,
+                    ease: "power2.out",
+                    stagger: 0.01 // Wave effect on mouse move
+                });
+            });
+
+            container.addEventListener('mouseleave', () => {
+                gsap.to(chars, { x: 0, y: 0, rotationY: 0, rotationX: 0, duration: 1, ease: "power2.out" });
+            });
+        });
+    </script>
+
+    <!-- TRANSFORMATION STORIES SECTION -->
+    
+
+    <div id="j-stories-section">
+
+        <div class="j-stories-header">
+            <span class="j-stories-subtitle">Community Stories</span>
+            <h2 class="j-stories-title">Transformation<br><span style="color:#FFE01E">Unleashed</span></h2>
+        </div>
+
+        <div class="j-stories-track">
+
+            <!-- Story 1 -->
+            <div class="j-story-card">
+                <div class="j-story-num">01</div>
+                <div class="j-story-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&w=800&auto=format&fit=crop"
+                        class="j-story-img" alt="Aryan">
+                </div>
+                <div class="j-story-overlay">
+                    <h3 class="j-story-name">Aryan K.</h3>
+                    <span class="j-story-stat">Lost 25kg in 6 Months</span>
+                    <p class="j-story-quote">"Jaguar isn't just a gym, it's a discipline. The trainers pushed me beyond
+                        my mental barriers."</p>
+                </div>
+            </div>
+
+            <!-- Story 2 -->
+            <div class="j-story-card">
+                <div class="j-story-num">02</div>
+                <div class="j-story-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?q=80&w=800&auto=format&fit=crop"
+                        class="j-story-img" alt="Priya">
+                </div>
+                <div class="j-story-overlay">
+                    <h3 class="j-story-name">Priya S.</h3>
+                    <span class="j-story-stat">Marathon Ready</span>
+                    <p class="j-story-quote">"From struggling to run 1km to finishing my first half-marathon. The
+                        endurance training here is world-class."</p>
+                </div>
+            </div>
+
+            <!-- Story 3 -->
+            <div class="j-story-card">
+                <div class="j-story-num">03</div>
+                <div class="j-story-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?q=80&w=800&auto=format&fit=crop"
+                        class="j-story-img" alt="Vikram">
+                </div>
+                <div class="j-story-overlay">
+                    <h3 class="j-story-name">Vikram R.</h3>
+                    <span class="j-story-stat">Gained 10kg Muscle</span>
+                    <p class="j-story-quote">"Old school iron meet modern science. The strength zone is my second home
+                        now."</p>
+                </div>
+            </div>
+
+            <!-- Story 4 -->
+            <div class="j-story-card">
+                <div class="j-story-num">04</div>
+                <div class="j-story-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1623200213563-63d16852a3f9?q=80&w=800&auto=format&fit=crop"
+                        class="j-story-img" alt="Ananya">
+                </div>
+                <div class="j-story-overlay">
+                    <h3 class="j-story-name">Ananya D.</h3>
+                    <span class="j-story-stat">Post-Injury Recovery</span>
+                    <p class="j-story-quote">"I thought I'd never lift heavy again. The physio-integrated training got
+                        me back stronger."</p>
+                </div>
+            </div>
+
+            <!-- CTA Card -->
+            <div class="j-story-card j-story-cta">
+                <div class="j-cta-text">You are<br>Next.</div>
+                <a href="#" class="j-cta-btn">Start Your Story</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const section = document.getElementById("j-stories-section");
+            const track = document.querySelector(".j-stories-track");
+            const cards = document.querySelectorAll(".j-story-card");
+            const images = document.querySelectorAll(".j-story-img");
+
+            // Calculate total width to scroll
+            // (Track width - Viewport width + padding)
+
+            // 1. HORIZONTAL SCROLL
+            const scrollTween = gsap.to(track, {
+                x: () => -(track.scrollWidth - window.innerWidth + 100), // +100 for buffer
+                ease: "none",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top top",
+                    end: () => "+=" + (track.scrollWidth), // Scroll distance proportional to content width
+                    pin: true,
+                    scrub: 1,
+                    invalidateOnRefresh: true,
+                    anticipatePin: 1
+                }
+            });
+
+            // 2. PARALLAX EFFECT INSIDE CARDS
+            // As the cards move left, we move the image inside slightly right
+            images.forEach((img) => {
+                gsap.fromTo(img,
+                    { xPercent: -10 },
+                    {
+                        xPercent: 10,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top top",
+                            end: () => "+=" + (track.scrollWidth),
+                            scrub: 1,
+                            containerAnimation: scrollTween // Link to the horizontal scroll
+                        }
+                    }
+                );
+            });
+
+            // 3. TITLE ENTRANCE
+            gsap.from(".j-stories-title, .j-stories-subtitle", {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 60%"
+                }
+            });
+        });
+    </script>
+
+    <!-- EXPERIENCE SECTION (Video Reveal) -->
+    
+
+    <div id="j-experience-section">
+
+        <div class="j-exp-header">
+            <span class="j-exp-subtitle">World Class Facilities</span>
+            <h2 class="j-exp-title">The Jaguar Experience</h2>
+        </div>
+
+        <div class="j-exp-grid">
+
+            <!-- Item 1: Main Floor -->
+            <div class="j-exp-item">
+                <!-- Removed img, added preload="auto" to video -->
+                <video class="j-exp-video" muted loop playsinline preload="auto">
+                    <source src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/036a3257-nFj3ZRqkfafYUDfd.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="j-exp-overlay"></div>
+                <div class="j-exp-label-wrap">
+                    <span class="j-exp-label">The Iron Cathedral</span>
+                    <span class="j-exp-desc">10,000 sq ft of resistance</span>
+                </div>
+            </div>
+
+            <!-- Item 2: Weights -->
+            <div class="j-exp-item">
+                <video class="j-exp-video" muted loop playsinline preload="auto">
+                    <source src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/036a3266-SHTOZk83yVoR5IeN.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="j-exp-overlay"></div>
+                <div class="j-exp-label-wrap">
+                    <span class="j-exp-label">Free Weights</span>
+                    <span class="j-exp-desc">Precision Calibrated</span>
+                </div>
+            </div>
+
+            <!-- Item 3: Cardio -->
+            <div class="j-exp-item">
+                <video class="j-exp-video" muted loop playsinline preload="auto">
+                    <source src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/036a3282-aIYG9TqpQPaBYCeJ.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="j-exp-overlay"></div>
+                <div class="j-exp-label-wrap">
+                    <span class="j-exp-label">Cardio Deck</span>
+                    <span class="j-exp-desc">Endurance Lab</span>
+                </div>
+            </div>
+
+            <!-- Item 4: Spa/Pool -->
+            <div class="j-exp-item">
+                <video class="j-exp-video" muted loop playsinline preload="auto">
+                    <source src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/036a3287-RgPIx3KFmIWyuoHY.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="j-exp-overlay"></div>
+                <div class="j-exp-label-wrap">
+                    <span class="j-exp-label">Recovery Zone</span>
+                    <span class="j-exp-desc">Hydro & Cryotherapy</span>
+                </div>
+            </div>
+
+            <!-- Item 5: Lounge -->
+            <div class="j-exp-item">
+                <video class="j-exp-video" muted loop playsinline preload="auto">
+                    <source src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/036a3327-2c602MeQQjHg4YQB.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="j-exp-overlay"></div>
+                <div class="j-exp-label-wrap">
+                    <span class="j-exp-label">Member's Lounge</span>
+                    <span class="j-exp-desc">Community Hub</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const expSection = document.getElementById("j-experience-section");
+
+            // 1. VIDEO REVEAL LOGIC
+            const items = document.querySelectorAll('.j-exp-item');
+
+            items.forEach(item => {
+                const video = item.querySelector('video');
+
+                // Ensure video pauses on first frame initially if autoplay rules allow
+                // (Most browsers won't autoplay unmuted without interaction anyway)
+                if (video) {
+                    video.pause();
+
+                    item.addEventListener('mouseenter', () => {
+                        video.play().catch(e => { /* Ignore play promise errors */ });
+                    });
+
+                    item.addEventListener('mouseleave', () => {
+                        video.pause();
+                        // Optional: reset to start for fresh playback next time
+                        // video.currentTime = 0; 
+                    });
+                }
+            });
+
+            // 2. ENTRANCE ANIMATIONS
+            // Title
+            gsap.from(".j-exp-title, .j-exp-subtitle", {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: expSection,
+                    start: "top 70%"
+                }
+            });
+
+            // Grid Items (Staggered Pop)
+            gsap.to(".j-exp-item", {
+                opacity: 1,
+                duration: 0.8,
+                scale: 1,
+                startAt: { scale: 0.9, y: 50 },
+                y: 0,
+                stagger: 0.15,
+                ease: "back.out(1.2)",
+                scrollTrigger: {
+                    trigger: ".j-exp-grid",
+                    start: "top 75%"
+                }
+            });
+        });
+    </script>
+
+    <!-- APP SHOWCASE SECTION -->
+    
+
+    <div id="jaguar-section-6">
+        <div class="j-marquee-wrapper">
+            <div class="j-marquee-track">
+                <div class="j-marquee-text">JAGUAR FITNESS // MOVE FOR A BETTER WORLD // </div>
+                <div class="j-marquee-text">JAGUAR FITNESS // MOVE FOR A BETTER WORLD // </div>
+                <div class="j-marquee-text">JAGUAR FITNESS // MOVE FOR A BETTER WORLD // </div>
+            </div>
+        </div>
+
+        <div class="j-app-container">
+
+            <div class="j-app-content">
+                <h2 class="j-app-headline">
+                    <div class="j-line">Let's move for a</div>
+                    <div class="j-line"><span class="j-highlight">better world.</span></div>
+                </h2>
+                <p class="j-app-desc">
+                    Download the Jaguar Fitness App. Train with the best coaches, track your progress, and join the
+                    community anytime.
+                </p>
+                <div class="j-app-buttons">
+                    <button class="j-btn-app j-btn-white" data-strength="30">Download iOS</button>
+                    <button class="j-btn-app j-btn-outline" data-strength="50">Download Android</button>
+                </div>
+            </div>
+
+            <div class="j-phone-wrapper">
+                <div class="j-app-glow"></div>
+
+                <div class="j-phone-tilt-layer">
+                    <div class="j-ui-widget j-widget-1">
+                        <span style="color: #FFE01E;">●</span> 142 BPM
+                    </div>
+                    <div class="j-phone-frame">
+                        <img id="j-360-screen"
+                            src="https://images.ctfassets.net/ipjoepkmtnha/5kqHg2dsmSSu6xRvfiSSSm/365013c686e161ebe6edb86a743ab885/Sequence_01.00_00_00_00.Still001.jpg?w=600"
+                            width="380" height="760" class="j-phone-img" alt="App Screen">
+                    </div>
+                    <div class="j-ui-widget j-widget-2">
+                        <span style="color: #4ADE80;">↑</span> 450 Kcal
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // 1. MARQUEE
+            const marqueeTrack = document.querySelector(".j-marquee-track");
+            const marqueeTween = gsap.to(marqueeTrack, {
+                xPercent: -33.33,
+                repeat: -1,
+                duration: 15,
+                ease: "linear"
+            }).totalProgress(0.5);
+
+            gsap.set(marqueeTween, { timeScale: 1 });
+
+            ScrollTrigger.create({
+                trigger: "body",
+                start: 0,
+                end: "max",
+                onUpdate: (self) => {
+                    const velocity = self.getVelocity() / 300;
+                    gsap.to(marqueeTween, {
+                        timeScale: 1 + Math.abs(velocity),
+                        duration: 0.5,
+                        ease: "power1.out",
+                        overwrite: true
+                    });
+                }
+            });
+
+            // 2. MAGNETIC BUTTONS
+            const buttons = document.querySelectorAll(".j-btn-app");
+            buttons.forEach((btn) => {
+                const strength = btn.getAttribute("data-strength") || 30;
+                btn.addEventListener("mousemove", (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(btn, { x: x / (strength / 10), y: y / (strength / 10), duration: 0.3, ease: "power2.out" });
+                });
+                btn.addEventListener("mouseleave", () => {
+                    gsap.to(btn, { x: 0, y: 0, duration: 0.8, ease: "elastic.out(1, 0.4)" });
+                });
+            });
+
+            // 3. SCROLL PINNING
+            ScrollTrigger.create({
+                trigger: "#jaguar-section-6",
+                start: "top top",
+                end: "+=50%",
+                pin: true,
+            });
+
+            // 4. TEXT REVEAL (FIXED)
+            // Set 'start' to 'top 90%' so it triggers earlier
+            // Added 'clearProps' to ensure text is visible even if animation glitches
+            gsap.from([".j-app-headline", ".j-app-desc", ".j-app-buttons"], {
+                y: 40,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: "#jaguar-section-6",
+                    start: "top 90%", // Trigger almost immediately when section appears
+                },
+                onComplete: () => {
+                    gsap.set([".j-app-headline", ".j-app-desc", ".j-app-buttons"], { clearProps: "opacity" });
+                }
+            });
+
+            // 5. PHONE ENTRANCE
+            gsap.from(".j-phone-wrapper", {
+                y: 100, opacity: 0, duration: 1.4, ease: "power3.out",
+                scrollTrigger: { trigger: "#jaguar-section-6", start: "top 85%" }
+            });
+
+            // 6. FLOAT
+            gsap.to(".j-phone-tilt-layer", {
+                y: -25, duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut"
+            });
+
+            // 7. MOUSE TILT
+            const section = document.querySelector("#jaguar-section-6");
+            const tiltLayer = document.querySelector(".j-phone-tilt-layer");
+            const glow = document.querySelector(".j-app-glow");
+
+            section.addEventListener("mousemove", (e) => {
+                if (ScrollTrigger.isScrolling()) return;
+                const { width, height, left, top } = section.getBoundingClientRect();
+                const xPos = (e.clientX - left - width / 2) / (width / 2);
+                const yPos = (e.clientY - top - height / 2) / (height / 2);
+
+                gsap.to(tiltLayer, { rotationY: xPos * 15, rotationX: -yPos * 15, duration: 0.5, ease: "power2.out" });
+                gsap.to(glow, { x: -xPos * 60, y: -yPos * 60, duration: 1, ease: "power2.out" });
+            });
+
+            section.addEventListener("mouseleave", () => {
+                gsap.to(tiltLayer, { rotationY: 0, rotationX: 0, duration: 1, ease: "power2.out" });
+                gsap.to(glow, { x: 0, y: 0, duration: 1, ease: "power2.out" });
+            });
+        });
+    </script>
+
+    <!-- BUSINESS PARALLAX SECTION -->
+    
+
+    <div id="jaguar-section-7">
+
+        <div class="j-parallax-bg-wrap">
+            <img src="https://assets.zyrosite.com/dWxL2je49ks9BZq5/page_49_1-1-g92dbL2PJKpcGmnx.webp"
+                class="j-parallax-img" alt="Gym Training">
+        </div>
+
+        <div class="j-biz-content">
+            <h2 class="j-biz-headline">
+                Shape up your business<br>
+                <span class="j-text-yellow">with Jaguar Fitness</span>
+            </h2>
+            <p class="j-biz-desc">
+                Since 1983, we have been empowering health and wellness facilities. Revolutionize your business with our
+                integrated ecosystem.
+            </p>
+            <a href="#" class="j-btn-biz">Explore Business Solutions</a>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // 1. KEN BURNS EFFECT
+            gsap.to(".j-parallax-img", {
+                scale: 1.25,
+                duration: 25,
+                ease: "none",
+                repeat: -1,
+                yoyo: true
+            });
+
+            // 2. TEXT REVEAL
+            gsap.from(".j-biz-headline", {
+                y: 50,
+                opacity: 0,
+                duration: 1.5,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: "#jaguar-section-7",
+                    start: "top 75%",
+                }
+            });
+
+            gsap.from([".j-biz-desc", ".j-btn-biz"], {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                delay: 0.3,
+                stagger: 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: "#jaguar-section-7",
+                    start: "top 75%",
+                }
+            });
+        });
+    </script>
+
+    <!-- AWARDS SECTION -->
+    
+
+    <div id="jaguar-section-8">
+        <div class="j-awards-container">
+
+            <span class="j-awards-pre">Celebrating quality and innovation</span>
+            <h2 class="j-awards-title">50+ awarded products since 2004</h2>
+
+            <div class="j-awards-grid">
+
+                <div class="j-award-item">
+                    <div class="j-award-circle">RD</div>
+                    <span class="j-award-label">Red Dot</span>
+                </div>
+
+                <div class="j-award-item">
+                    <div class="j-award-circle">iF</div>
+                    <span class="j-award-label">iF Design</span>
+                </div>
+
+                <div class="j-award-item">
+                    <div class="j-award-circle">ADI</div>
+                    <span class="j-award-label">ADI Design</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    
+
+    <!-- Footer injected by main.js -->
+
+
+    
+
+</body>
+
+</html>

@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Titan X-Series 3D Cylinder</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-body: #000000;
+            --bg-card: #1a1a1a;
+            --accent-orange: #f27f3d;
+            --accent-glow: rgba(242, 127, 61, 0.6);
+            --text-main: #ffffff;
+            --text-muted: #aaaaaa;
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+            --transition-speed: 1s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: transparent; 
+            font-family: var(--font-body);
+            color: var(--text-main);
+            /* PREVENT SCROLLING & BOUNCING */
+            overflow: hidden; 
+            overscroll-behavior: none;
+            position: fixed; /* Locks viewport on iOS */
+        }
+
+        /* --- SPOTLIGHT BACKGROUND --- */
+        .bg-animate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* Desktop Gradient: Centered left */
+            background: radial-gradient(circle at 30% 50%, #2b2b2b 0%, #000000 85%);
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 60%; /* Align with the carousel stage on desktop */
+            text-align: center;
+            padding: 30px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            text-shadow: 0 0 30px rgba(0,0,0,0.9);
+            margin: 0;
+        }
+
+        .accent { color: var(--accent-orange); }
+
+        /* --- MAIN LAYOUT --- */
+        main {
+            flex-grow: 1;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            perspective: 2500px; 
+            overflow: hidden; /* Critical for preventing 3D overflow scroll */
+        }
+
+        /* --- 3D CYLINDER STAGE (Left Side Desktop) --- */
+        .carousel-stage {
+            width: 60%; /* Occupy left 60% of screen */
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: none; /* Disable browser handling of gestures */
+        }
+
+        .carousel-track {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform var(--transition-speed) cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        /* THE CARD */
+        .card {
+            position: absolute;
+            width: 420px; 
+            height: 600px;
+            left: 50%;
+            top: 50%;
+            margin-left: -210px; /* Centered (half of 420) */
+            margin-top: -300px; /* Centered (half of 600) */
+            background: transparent; 
+            border: none; 
+            border-radius: 12px;
+            cursor: pointer;
+            overflow: visible; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: visible; 
+            transition: transform 0.4s; 
+        }
+
+        .card img {
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain;
+            pointer-events: none;
+            /* Inactive: Darkened, Greyscale */
+            filter: brightness(0.4) grayscale(1) drop-shadow(0 10px 20px rgba(0,0,0,0.8)); 
+            transition: filter 0.8s, transform 0.4s;
+        }
+
+        /* Active Card Styling */
+        .card.active {
+            z-index: 50;
+        }
+
+        .card.active img {
+            /* Active: Full color, bright, orange glow */
+            filter: brightness(1) grayscale(0) drop-shadow(0 0 30px var(--accent-glow));
+            transform: scale(1.1);
+        }
+
+        /* --- RIGHT SIDE SPEC PANEL (Desktop) --- */
+        .hud-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-left: 2px solid var(--accent-orange);
+            box-shadow: -20px 0 50px rgba(0,0,0,0.5);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; 
+            padding: 120px 60px 60px 60px; 
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .hud-panel.hidden {
+            transform: translateX(100%);
+        }
+        .hud-panel.visible {
+            transform: translateX(0);
+        }
+
+        /* HUD Sections */
+        .hud-header-section {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        /* Title Section */
+        .hud-title {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            color: #fff;
+            margin: 0 0 10px 0;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .hud-subtitle {
+            color: var(--accent-orange);
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        /* --- TABS --- */
+        .tabs-nav {
+            display: flex;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            padding: 10px 20px 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .tab-btn:hover {
+            color: #fff;
+        }
+
+        .tab-btn.active {
+            color: var(--accent-orange);
+            font-weight: 700;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent-orange);
+        }
+
+        /* --- TAB CONTENT --- */
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Description/Features Section */
+        .hud-desc {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 12px;
+            color: #e0e0e0;
+            font-size: 1rem;
+        }
+
+        .feature-list li::before {
+            content: '▹';
+            color: var(--accent-orange);
+            position: absolute;
+            left: 0;
+        }
+
+        /* Specs Grid */
+        .spec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 10px;
+        }
+
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+            border-left: 2px solid rgba(255,255,255,0.1);
+            padding-left: 15px;
+        }
+
+        .spec-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .spec-value {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            color: #fff;
+        }
+
+        /* --- CONTROLS --- */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.2);
+            cursor: pointer;
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: all 0.3s;
+        }
+        .nav-btn:hover { 
+            background: var(--accent-orange); 
+            border-color: var(--accent-orange); 
+            transform: translateY(-50%) scale(1.1); 
+        }
+        
+        /* Position buttons around the 60% Carousel Stage */
+        .nav-prev { left: 50px; }
+        .nav-next { left: 52%; } /* Just before the panel starts */
+
+        /* --- MOBILE RESPONSIVE (VERTICAL STACK) --- */
+        @media (max-width: 900px) {
+            
+            /* 1. Layout Structure */
+            main {
+                flex-direction: column;
+            }
+            
+            header {
+                width: 100%;
+                padding: 15px;
+            }
+            
+            h1 { font-size: 1.8rem; letter-spacing: 3px; }
+
+            /* 2. Spotlight Recenter */
+            .bg-animate {
+                /* Center the spotlight for mobile portrait */
+                background: radial-gradient(circle at 50% 30%, #2b2b2b 0%, #000000 70%);
+            }
+
+            /* 3. Carousel - Top 50% */
+            .carousel-stage {
+                width: 100%;
+                height: 50%;
+                top: 0;
+                perspective: 1000px; /* Flatten slightly for mobile */
+                z-index: 10;
+            }
+
+            .card {
+                width: 240px; /* Smaller card for mobile */
+                height: 340px;
+                margin-left: -120px;
+                margin-top: -170px;
+            }
+
+            /* 4. Controls - Repositioned */
+            .nav-prev { left: 10px; top: 50%; width: 50px; height: 50px; }
+            .nav-next { right: 10px; left: auto; top: 50%; width: 50px; height: 50px; }
+
+            /* 5. HUD Panel - Bottom 50% */
+            .hud-panel {
+                width: 100%;
+                height: 50%;
+                top: auto;
+                bottom: 0;
+                border-left: none;
+                border-top: 2px solid var(--accent-orange);
+                padding: 25px;
+                justify-content: flex-start;
+                overflow-y: auto; /* Allow scrolling content */
+                touch-action: pan-y; /* Allow vertical scroll within panel */
+            }
+            
+            /* Slide Up Animation for Mobile */
+            .hud-panel.hidden {
+                transform: translateY(100%);
+            }
+            .hud-panel.visible {
+                transform: translateY(0);
+            }
+
+            .hud-title { font-size: 2rem; margin-bottom: 5px; }
+            .hud-subtitle { font-size: 0.9rem; margin-bottom: 15px; }
+            .hud-desc { font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px; }
+            
+            .spec-grid { 
+                gap: 15px; 
+                grid-template-columns: 1fr 1fr;
+            }
+            .spec-value { font-size: 1.1rem; }
+            
+            .tabs-nav { margin-bottom: 15px; }
+            .tab-btn { font-size: 1rem; padding: 5px 15px 5px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background -->
+    <div class="bg-animate"></div>
+
+    <header>
+        <h1>Jaguar <span class="accent">Fitness</span></h1>
+    </header>
+
+    <main>
+        <!-- NAVIGATION BUTTONS -->
+        <button class="nav-btn nav-prev" onclick="rotateCarousel(-1)">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="nav-btn nav-next" onclick="rotateCarousel(1)">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+
+        <!-- 3D CAROUSEL STAGE -->
+        <div class="carousel-stage">
+            <div class="carousel-track" id="track">
+                <!-- Cards injected via JS -->
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE HUD PANEL -->
+        <div class="hud-panel visible" id="info-panel">
+            
+            <!-- HEADER: IDENTITY -->
+            <div class="hud-header-section">
+                <h2 class="hud-title" id="p-title">Product Name</h2>
+                <span class="hud-subtitle" id="p-subtitle">Series Name</span>
+            </div>
+
+            <!-- TABS NAVIGATION -->
+            <div class="tabs-nav">
+                <button class="tab-btn active" onclick="switchTab('features')">Features</button>
+                <button class="tab-btn" onclick="switchTab('specs')">Specifications</button>
+            </div>
+
+            <!-- TAB CONTENT CONTAINER -->
+            <div class="hud-content">
+                
+                <!-- FEATURES TAB -->
+                <div id="tab-features" class="tab-pane active">
+                    <p class="hud-desc" id="p-desc">Loading description...</p>
+                    <ul class="feature-list" id="p-features">
+                        <!-- Dynamic Features List -->
+                    </ul>
+                </div>
+
+                <!-- SPECIFICATIONS TAB -->
+                <div id="tab-specs" class="tab-pane">
+                    <div class="spec-grid" id="p-specs">
+                        <!-- Dynamic Specs Grid -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- DATA ---
+        const baseProducts = [
+            { 
+                id: 1, 
+                title: "Titan Multi-Station", 
+                subtitle: "Commercial Series", 
+                desc: "Engineered for complete body conditioning. This all-in-one functional trainer features dual independent stacks and aircraft-grade cables for frictionless movement.",
+                features: [
+                    "Dual independent 200lb weight stacks",
+                    "Frictionless aircraft-grade cabling",
+                    "Multi-grip chin-up station integrated",
+                    "Includes accessory storage rack"
+                ],
+                specs: [
+                    { label: "Weight Stack", val: "2 x 200 lbs" },
+                    { label: "Material", val: "11-Gauge Steel" },
+                    { label: "Height", val: "84 Inches" },
+                    { label: "Cable", val: "Aircraft Grade" }
+                ],
+                image: "https://www.dropbox.com/scl/fi/s3lag4n8nidemaksarb70/3d-gym-equipment-1.png?rlkey=yokbhhmiaf2cp7ddx3pioi5fl&st=x3slymnh&raw=1" 
+            },
+            { 
+                id: 2, 
+                title: "Pro Leg Press", 
+                subtitle: "Strength Line", 
+                desc: "A dedicated 45-degree angle press designed for optimal quad isolation. Features an oversized footplate and ultra-smooth linear bearings for safety.",
+                features: [
+                    "Precision 45-degree pressing angle",
+                    "Oversized anti-slip footplate",
+                    "Easy-access safety lockout handles",
+                    "High-density foam back support"
+                ],
+                specs: [
+                    { label: "Capacity", val: "1,200 lbs" },
+                    { label: "Bearings", val: "Linear" },
+                    { label: "Footprint", val: "80x60 in" },
+                    { label: "Padding", val: "High Density" }
+                ],
+                image: "https://www.dropbox.com/scl/fi/tu1s6bmxrmib9kv825k1x/3d-gym-equipment-2.png?rlkey=a9m72ym7yq97tpb4vu5jiboo9&st=o6alp099&raw=1" 
+            },
+            { 
+                id: 3, 
+                title: "GH-450 Hyper", 
+                subtitle: "Core Series", 
+                desc: "The ultimate heavy-duty hyperextension bench. Built for lower back, glute, and hamstring development with fully adjustable hip pads.",
+                features: [
+                    "Fully adjustable hip pad height",
+                    "Dual stability handles",
+                    "Extra-wide base prevents tipping",
+                    "Split-pad design for comfort"
+                ],
+                specs: [
+                    { label: "Max Load", val: "400 lbs" },
+                    { label: "Angle", val: "45 Degrees" },
+                    { label: "Adjustable", val: "Yes" },
+                    { label: "Finish", val: "Powder Coat" }
+                ],
+                image: "https://www.dropbox.com/scl/fi/55z9kt7gcf7baagjs40hb/2151114120.png?rlkey=m50jk6wf1kjecmswyg68s4c1h&st=o02r7qq3&raw=1" 
+            },
+            { 
+                id: 4, 
+                title: "Apex Dumbbells", 
+                subtitle: "Free Weights", 
+                desc: "Professional grade. The rubber hex design prevents rolling, while the ergonomic chrome handles provide a secure, comfortable grip.",
+                features: [
+                    "Anti-roll hex head design",
+                    "Ergonomic knurled chrome handles",
+                    "Impact-absorbing virgin rubber",
+                    "Pinned heads for durability"
+                ],
+                specs: [
+                    { label: "Core", val: "Cast Iron" },
+                    { label: "Coating", val: "Virgin Rubber" },
+                    { label: "Handle", val: "Chrome" },
+                    { label: "Increments", val: "5-100 lbs" }
+                ],
+                image: "https://www.dropbox.com/scl/fi/rsafvkjat5ekioez04ipw/2151114151.png?rlkey=tfhwbwfup8p90lwvzpofjyyft&st=gywbb87c&raw=1" 
+            },
+            { 
+                id: 5, 
+                title: "Cardio Runner", 
+                subtitle: "Endurance Series", 
+                desc: "Push your limits. This advanced treadmill features a shock absorption deck and an integrated 15-inch touchscreen for immersive runs.",
+                features: [
+                    "Advanced shock absorption deck",
+                    "15-inch HD touchscreen display",
+                    "Heart rate monitoring sensors",
+                    "Zero-maintenance belt system"
+                ],
+                specs: [
+                    { label: "Motor", val: "4.0 HP" },
+                    { label: "Top Speed", val: "12 MPH" },
+                    { label: "Incline", val: "0-15%" },
+                    { label: "User Max", val: "350 lbs" }
+                ],
+                image: "https://www.dropbox.com/scl/fi/utu360iilgnv3zedtibfc/2151114249.png?rlkey=c2d8rj6ixwc6vqplmyuq1xvnf&st=lb2oc0f0&raw=1" 
+            }
+        ];
+
+        // --- EXPAND DATA ---
+        const products = [...baseProducts, ...baseProducts, ...baseProducts];
+
+        // --- STATE ---
+        let currentIndex = 0;
+        const track = document.getElementById('track');
+        const infoPanel = document.getElementById('info-panel');
+        const totalItems = products.length;
+        
+        // --- 3D CONFIGURATION ---
+        const cardWidth = 420; 
+        const gap = 20; 
+        
+        // Dynamic Radius Calculation:
+        const radius = Math.round( ((cardWidth + gap) / 2) / Math.tan(Math.PI / totalItems) );
+        const theta = 360 / totalItems; 
+
+        // --- INIT ---
+        function initCarousel() {
+            track.innerHTML = '';
+            
+            products.forEach((prod, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.index = index;
+                card.onclick = () => jumpTo(index);
+
+                // Initial 3D Position
+                const angle = theta * index;
+                // Important: Rotate Y first, then push out by Radius
+                card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+
+                const img = document.createElement('img');
+                img.src = prod.image;
+                img.alt = prod.title;
+                
+                card.appendChild(img);
+                track.appendChild(card);
+            });
+
+            updateView();
+            updatePanelContent(); // Initial load
+        }
+
+        // --- CAROUSEL LOGIC ---
+        function updateView() {
+            // Rotate the entire track container
+            const currentAngle = currentIndex * -theta;
+            track.style.transform = `translateZ(-${radius}px) rotateY(${currentAngle}deg)`;
+
+            // Calculate 'Normalized' index (0 to totalItems-1)
+            let normalizedIndex = currentIndex % totalItems;
+            if (normalizedIndex < 0) normalizedIndex += totalItems;
+
+            // Update Active Classes
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                if (parseInt(card.dataset.index) === normalizedIndex) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+        }
+
+        function rotateCarousel(direction) {
+            currentIndex += direction;
+            updateView();
+            animatePanelUpdate();
+        }
+
+        function jumpTo(targetIndex) {
+            // Smart jumping
+            let currentMod = currentIndex % totalItems;
+            if (currentMod < 0) currentMod += totalItems;
+            
+            let diff = targetIndex - currentMod;
+            
+            if (diff > totalItems / 2) diff -= totalItems;
+            if (diff < -totalItems / 2) diff += totalItems;
+
+            currentIndex += diff;
+            updateView();
+            animatePanelUpdate();
+        }
+
+        // --- INFO PANEL LOGIC ---
+        function updatePanelContent() {
+            let normalizedIndex = currentIndex % totalItems;
+            if (normalizedIndex < 0) normalizedIndex += totalItems;
+            
+            const data = products[normalizedIndex];
+
+            // Update Text
+            document.getElementById('p-title').textContent = data.title;
+            document.getElementById('p-subtitle').textContent = data.subtitle;
+            document.getElementById('p-desc').textContent = data.desc;
+
+            // Update Features List
+            const featureList = document.getElementById('p-features');
+            featureList.innerHTML = '';
+            data.features.forEach(feature => {
+                const li = document.createElement('li');
+                li.textContent = feature;
+                featureList.appendChild(li);
+            });
+
+            // Update Specs Grid
+            const specContainer = document.getElementById('p-specs');
+            specContainer.innerHTML = '';
+            
+            data.specs.forEach(s => {
+                const item = document.createElement('div');
+                item.className = 'spec-item';
+                item.innerHTML = `
+                    <span class="spec-label">${s.label}</span>
+                    <span class="spec-value">${s.val}</span>
+                `;
+                specContainer.appendChild(item);
+            });
+        }
+
+        function animatePanelUpdate() {
+            // Slide Out to Right
+            infoPanel.classList.remove('visible');
+            infoPanel.classList.add('hidden');
+
+            // Wait, Update, Slide In
+            setTimeout(() => {
+                updatePanelContent();
+                // Reset to default tab (Features) on slide change? 
+                // Optional: Uncomment next line to always reset to Features
+                // switchTab('features'); 
+                infoPanel.classList.remove('hidden');
+                infoPanel.classList.add('visible');
+            }, 600); // Wait slightly longer for the larger panel
+        }
+
+        // --- TAB LOGIC ---
+        function switchTab(tabName) {
+            // Update Buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                if (btn.textContent.toLowerCase().includes(tabName === 'features' ? 'features' : 'specifications')) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Update Content
+            const panes = document.querySelectorAll('.tab-pane');
+            panes.forEach(pane => pane.classList.remove('active'));
+
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        // --- KEYBOARD & TOUCH SUPPORT ---
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') rotateCarousel(-1);
+            if (e.key === 'ArrowRight') rotateCarousel(1);
+        });
+
+        // Add Swipe Support for Mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const carouselStage = document.querySelector('.carousel-stage');
+
+        carouselStage.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        carouselStage.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) rotateCarousel(1); // Swipe Left -> Next
+            if (touchEndX > touchStartX + 50) rotateCarousel(-1); // Swipe Right -> Prev
+        }
+
+        // Start
+        initCarousel();
+
+    </script>
+</body>
+</html>

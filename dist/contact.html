@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Us - Jaguar Fitness</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    
+  <script type="module" crossorigin src="/assets/main-CmNXe1vT.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-B6lbRanm.css">
+  <link rel="stylesheet" crossorigin href="/assets/contact-Di1S9LPe.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <!-- Header injected by main.js -->
+
+    
+
+    <!-- CONTACT CONTENT -->
+    <div class="contact-section">
+
+        <div class="contact-info">
+            <h1>Get in<br>Touch</h1>
+
+            <div class="info-card">
+                <span class="info-label">Headquarters</span>
+                <div class="info-text">Jaguar Fitness India Pvt. Ltd.</div>
+                <div class="info-text">Cyber City, Building 10-B</div>
+                <div class="info-text">Gurugram, Haryana 122002</div>
+            </div>
+
+            <div class="info-card">
+                <span class="info-label">Contact</span>
+                <div class="info-text">support@jaguarfitness.com</div>
+                <div class="info-text">+91 124 456 7890</div>
+            </div>
+
+            <div class="info-card">
+                <span class="info-label">Support Hours</span>
+                <div class="info-text">Monday - Friday</div>
+                <div class="info-text">09:00 AM - 06:00 PM IST</div>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h2 style="margin-top:0; margin-bottom: 30px; text-transform: uppercase;">Send us a message</h2>
+            <form>
+                <div class="form-group">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-input" placeholder="Your Name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Subject</label>
+                    <select class="form-input">
+                        <option>General Inquiry</option>
+                        <option>Sales</option>
+                        <option>Support</option>
+                        <option>Partnership</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-textarea" rows="5" placeholder="How can we help?"></textarea>
+                </div>
+                <button type="button" class="btn-submit">Send Message</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <!-- Footer injected by main.js -->
+
+    <script>
+        gsap.from(".contact-info", { opacity: 0, x: -30, duration: 1, delay: 0.2 });
+        gsap.from(".contact-form", { opacity: 0, x: 30, duration: 1, delay: 0.5 });
+    </script>
+</body>
+
+</html>

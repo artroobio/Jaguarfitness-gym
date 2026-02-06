@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Equipment Interactive Blueprint</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS STYLES --- */
+
+        /* Variables & Reset */
+        :root {
+            --bg-neutral: #f4f4f4;
+            --accent-orange: #f27f3d;
+            --text-dark: #222222;
+            --text-grey: #666666;
+            --white: #ffffff;
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-neutral);
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .accent-text {
+            color: var(--accent-orange);
+        }
+
+        /* Layout Container */
+        .gym-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .product-header {
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 20px;
+        }
+
+        .product-title {
+            font-size: 2rem;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .product-subtitle {
+            color: var(--text-grey);
+            font-size: 1rem;
+        }
+
+        /* The Blueprint Area */
+        .blueprint-area {
+            position: relative;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .blueprint-wrapper {
+            position: relative;
+            width: 100%;
+            /* Card look for the blueprint area */
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            overflow: hidden; /* Keeps hidden cards contained */
+            min-height: 400px; /* Ensure space on mobile */
+            text-align: center; /* Centers the image */
+        }
+
+        .main-machine-img {
+            max-width: 100%;
+            height: auto;
+            display: inline-block; /* Helps centering */
+            /* Filter to make image slightly tech/blueprint style */
+            /* filter: contrast(1.05);  Optional: Remove if you want pure image */
+            transition: all 0.3s ease;
+        }
+
+        .mobile-hint {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-grey);
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        /* The Hotspots */
+        .hotspot {
+            position: absolute;
+            width: 44px; /* Large touch target */
+            height: 44px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            z-index: 10;
+            transform: translate(-50%, -50%);
+            outline: none;
+        }
+
+        .hotspot-inner {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 14px;
+            height: 14px;
+            background-color: var(--accent-orange);
+            border-radius: 50%;
+            z-index: 2;
+            transition: transform 0.2s ease;
+        }
+
+        /* Pulsing Animation */
+        .hotspot-ring {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 14px;
+            height: 14px;
+            background-color: rgba(242, 127, 61, 0.6);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            z-index: 1;
+        }
+
+        @keyframes pulse {
+            0% { width: 14px; height: 14px; opacity: 1; }
+            100% { width: 60px; height: 60px; opacity: 0; }
+        }
+
+        /* Active State for Hotspot */
+        .hotspot.active .hotspot-inner {
+            background-color: var(--white);
+            border: 3px solid var(--accent-orange);
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        /* The Spec Card (Tooltip) */
+        .spec-card {
+            position: absolute;
+            background: var(--white);
+            border-left: 5px solid var(--accent-orange);
+            padding: 20px;
+            width: 240px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            z-index: 20;
+            
+            /* Initial State: Hidden */
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy transition */
+            pointer-events: none;
+            border-radius: 6px;
+            text-align: left; /* Ensure text inside card is left aligned even if wrapper is centered */
+        }
+
+        /* Reveal State */
+        .spec-card.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .spec-title {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .spec-desc {
+            font-size: 0.9rem;
+            color: var(--text-grey);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .spec-stat {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-top: 1px solid #eee;
+            padding-top: 8px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        .price-block {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price {
+            font-size: 1.75rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            color: var(--text-dark);
+        }
+
+        .stock-status {
+            font-size: 0.85rem;
+            color: #27ae60;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-orange);
+            color: var(--white);
+            border: none;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.2s;
+            font-family: var(--font-heading);
+        }
+
+        .btn-primary:hover {
+            background-color: #d66a2e;
+        }
+
+        /* DESKTOP BREAKPOINT (768px+) */
+        @media (min-width: 768px) {
+            .product-title {
+                font-size: 3rem;
+            }
+
+            .blueprint-wrapper {
+                min-height: 600px;
+                padding: 40px;
+            }
+            
+            .mobile-hint {
+                display: none; 
+            }
+
+            .hotspot:hover .hotspot-ring {
+                animation-duration: 1s; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="gym-container">
+      
+      <header class="product-header">
+        <h1 class="product-title">Titan <span class="accent-text">X-900</span> Series</h1>
+        <p class="product-subtitle">Commercial Grade Functional Trainer</p>
+      </header>
+    
+      <section class="blueprint-area">
+        
+        <div class="blueprint-wrapper">
+          
+          <img src="https://www.dropbox.com/scl/fi/dxscop427mdgnjxnvcill/18-1024x1024.webp?rlkey=epba6k7t2ka7ztqb5otex1nnd&st=hyfhvt5q&raw=1" alt="Gym Equipment" class="main-machine-img">
+    
+          <button class="hotspot" style="top: 25%; left: 35%;" data-target="info-1" aria-label="View Pulley Specs">
+            <span class="hotspot-inner"></span>
+            <span class="hotspot-ring"></span>
+          </button>
+          
+          <button class="hotspot" style="top: 50%; left: 60%;" data-target="info-2" aria-label="View Seat Specs">
+            <span class="hotspot-inner"></span>
+            <span class="hotspot-ring"></span>
+          </button>
+    
+           <button class="hotspot" style="top: 80%; left: 45%;" data-target="info-3" aria-label="View Frame Specs">
+            <span class="hotspot-inner"></span>
+            <span class="hotspot-ring"></span>
+          </button>
+    
+          <div id="info-1" class="spec-card">
+            <h3 class="spec-title">Dual Swivel Pulleys</h3>
+            <p class="spec-desc">Frictionless 180° rotation for unrestricted movement patterns and cable crossovers.</p>
+            <div class="spec-stat">Material: Aluminum Alloy</div>
+          </div>
+    
+          <div id="info-2" class="spec-card">
+            <h3 class="spec-title">Ergonomic Support</h3>
+            <p class="spec-desc">High-density foam padding with durable vinyl coating for maximum comfort.</p>
+            <div class="spec-stat">Rating: Commercial Grade</div>
+          </div>
+    
+          <div id="info-3" class="spec-card">
+            <h3 class="spec-title">Heavy-Duty Base</h3>
+            <p class="spec-desc">Extra wide footprint with non-slip rubber feet ensures absolute stability.</p>
+            <div class="spec-stat">Capacity: 1000lbs</div>
+          </div>
+    
+        </div>
+        
+        <p class="mobile-hint">Tap the pulsing orange points to view specs</p>
+    
+      </section>
+    
+      <section class="cta-section">
+        <div class="price-block">
+          <span class="price">$2,499</span>
+          <span class="stock-status">In Stock</span>
+        </div>
+        <button class="btn-primary">Add to Quote</button>
+      </section>
+    
+    </main>
+
+    <script>
+        // Select all hotspots and cards
+        const hotspots = document.querySelectorAll('.hotspot');
+        const cards = document.querySelectorAll('.spec-card');
+
+        // Function to close all cards (reset state)
+        function closeAllCards() {
+            cards.forEach(card => card.classList.remove('active'));
+            hotspots.forEach(spot => spot.classList.remove('active'));
+        }
+
+        // Function to position the card relative to the hotspot
+        function positionCard(hotspot, card) {
+            // Get coordinates
+            const spotRect = hotspot.getBoundingClientRect();
+            const wrapperRect = hotspot.parentElement.getBoundingClientRect();
+            
+            // Calculate top/left relative to the wrapper
+            let top = spotRect.top - wrapperRect.top;
+            let left = spotRect.left - wrapperRect.left;
+            
+            // Card dimensions (based on CSS)
+            const cardWidth = 240; 
+            
+            // Logic: Place to the right, unless it goes off screen, then flip left.
+            
+            // Check remaining space on the right
+            const remainingSpaceRight = wrapperRect.width - left;
+
+            if (remainingSpaceRight < cardWidth + 40) {
+                // Not enough space on right, flip to left
+                card.style.left = (left - cardWidth - 10) + 'px';
+                card.style.transformOrigin = "right center";
+            } else {
+                // Default: Place to right
+                card.style.left = (left + 40) + 'px'; 
+                card.style.transformOrigin = "left center";
+            }
+            
+            // Vertical alignment: center slightly up from the dot
+            card.style.top = (top - 20) + 'px';
+        }
+
+        hotspots.forEach(hotspot => {
+            // Click/Tap Event
+            hotspot.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent closing immediately by bubbling to wrapper
+                
+                const targetId = hotspot.getAttribute('data-target');
+                const targetCard = document.getElementById(targetId);
+                
+                // If this card is already open, close it (toggle behavior)
+                if (targetCard.classList.contains('active')) {
+                    closeAllCards();
+                } else {
+                    // Close others first
+                    closeAllCards();
+                    
+                    // Position and Open new one
+                    positionCard(hotspot, targetCard);
+                    
+                    // Small timeout to allow position to set before animating opacity
+                    requestAnimationFrame(() => {
+                        targetCard.classList.add('active');
+                        hotspot.classList.add('active');
+                    });
+                }
+            });
+        });
+
+        // Close tooltip if user clicks anywhere else on the wrapper/image
+        document.querySelector('.blueprint-wrapper').addEventListener('click', () => {
+            closeAllCards();
+        });
+    </script>
+</body>
+</html>
